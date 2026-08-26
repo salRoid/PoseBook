@@ -1,0 +1,20 @@
+{
+  "name": "@suite/kinetic",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Own-drawn exercise and yoga figures: a parameterised rig, poses as joint-angle data, multi-frame SVG out. Replaces third-party art with a set the suite owns outright.",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "export": "node scripts/export-health.mjs",
+    "missing": "node scripts/missing.mjs",
+    "ingest": "node scripts/ingest.mjs",
+    "plan": "node scripts/plan.mjs"
+  },
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "devDependencies": {
+    "sharp": ">=0.34.5"
+  }
+}
