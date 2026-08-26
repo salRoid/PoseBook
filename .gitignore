@@ -1,7 +1,5 @@
 node_modules/
 dist/
-frames/inbox/*
-!frames/inbox/.gitkeep
-parts/inbox/*
-!parts/inbox/.gitkeep
+# Generated art is DATA — Codex's sources are never ignored, in any state.
+# Only build output and deps stay out of git.
 .DS_Store
