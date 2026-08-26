@@ -254,9 +254,31 @@ const PART_TINT = (slug) => (slug && slug.includes('shoe') ? 'attire' : 'skin');
  * opts.palette — { skin, attire?, gear? }: emit real colours instead of
  * `currentColor`. Without it the output stays mask-compatible monochrome.
  */
+/**
+ * Measurement-driven build: scale the figure from REAL numbers. `build` is
+ * derived from the user's Health measurements — parts stay untouched; only
+ * the render changes, so the same library serves every body.
+ *   height  — scales every bone length (anthropometric: segment ∝ stature)
+ *   width   — across-bone thickness factor (waist/chest/limb girths → 0.8..1.3)
+ */
+export function buildFigure(sex, build = {}) {
+  const base = FIGURES[sex];
+  const h = build.height ?? 1;
+  return {
+    ...base,
+    headR: base.headR * Math.sqrt(h), neck: base.neck * h, torso: base.torso * h,
+    upper: base.upper * h, fore: base.fore * h, thigh: base.thigh * h,
+    shin: base.shin * h, foot: base.foot * h,
+    shoulderW: base.shoulderW * h * (build.shoulders ?? 1),
+    hipW: base.hipW * h * (build.hips ?? 1),
+    w: Object.fromEntries(Object.entries(base.w).map(([k, v]) => [k, v * (build.width ?? 1)])),
+    widthK: build.width ?? 1,
+  };
+}
+
 export function renderExercise(ex, sex, opts = {}) {
   const pal = opts.palette ?? null;
-  const F = FIGURES[sex];
+  const F = opts.build ? buildFigure(sex, opts.build) : FIGURES[sex];
   const view = ex.view ?? 'side';
   const solved = ex.frames.map((fr) => {
     const j = solve(F, fr, view);
@@ -287,11 +309,19 @@ export function renderExercise(ex, sex, opts = {}) {
     const [ax, ay] = rec.a, [bx, by] = rec.b;
     const ab = [bx - ax, by - ay], AB = [B[0] - A[0], B[1] - A[1]];
     const sc = Math.hypot(AB[0], AB[1]) / (Math.hypot(ab[0], ab[1]) || 1);
-    const th = Math.atan2(AB[1], AB[0]) - Math.atan2(ab[1], ab[0]);
-    const k1 = Math.cos(th) * sc, k2 = Math.sin(th) * sc;
-    const tx2 = A[0] - k1 * ax + k2 * ay, ty2 = A[1] - k2 * ax - k1 * ay;
+    const wK = F.widthK ?? 1; // across-bone thickness from measurements
+    // matrix = T(A) · R(boneAngle) · S(along, across) · R(-partAngle) · T(-a)
+    const thAB = Math.atan2(AB[1], AB[0]), thab = Math.atan2(ab[1], ab[0]);
+    const ca = Math.cos(-thab), sa = Math.sin(-thab);
+    const cb = Math.cos(thAB), sb = Math.sin(thAB);
+    // S·R(-partAngle)
+    const m11 = sc * ca, m12 = -sc * sa, m21 = sc * wK * sa, m22 = sc * wK * ca;
+    // R(boneAngle)·(S·R)
+    const k1 = cb * m11 - sb * m21, k3 = cb * m12 - sb * m22;
+    const k2 = sb * m11 + cb * m21, k4 = sb * m12 + cb * m22;
+    const tx2 = A[0] - (k1 * ax + k3 * ay), ty2 = A[1] - (k2 * ax + k4 * ay);
     const fill = pal ? (pal[PART_TINT(e.part)] ?? pal.skin) : 'currentColor';
-    return `<path d="${rec.d}" transform="matrix(${n(k1)} ${n(k2)} ${n(-k2)} ${n(k1)} ${n(tx2)} ${n(ty2)})" fill="${fill}" fill-rule="evenodd" stroke="none"${op}/>`;
+    return `<path d="${rec.d}" transform="matrix(${n(k1)} ${n(k2)} ${n(k3)} ${n(k4)} ${n(tx2)} ${n(ty2)})" fill="${fill}" fill-rule="evenodd" stroke="none"${op}/>`;
   };
 
   return solved.map(({ els }) => {

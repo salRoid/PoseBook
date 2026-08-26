@@ -81,6 +81,9 @@ const sheet = `<!doctype html><meta charset="utf-8"><title>Kinetic — contact s
 <h2>the part library (${Object.keys(manifest).length} ingested)</h2>
 <div class="legend"><span style="color:#e0442c">●</span> anchor A (proximal joint) · <span style="color:#127a63">●</span> anchor B (distal joint) — a dot off the joint = a part that will assemble dislocated</div>
 <div class="pgrid">${partCards}</div>
+<h2>build — the same figure driven by MEASUREMENTS (width 0.85 / 1.0 / 1.25)</h2>
+<div class="pgrid" style="grid-template-columns:repeat(auto-fill,minmax(150px,1fr))">${demoEx ? [0.85, 1.0, 1.25].map((w) =>
+  `<div class="pcard"><svg viewBox="0 0 512 512">${renderExercise(demoEx, 'm', { build: { width: w } })[0].replace(/^<svg[^>]*>/, '').replace('</svg>', '')}</svg><div class="pname">width ×${w}</div></div>`).join('') : ''}</div>
 <h2>skin tone — a render-time palette, not extra assets</h2>
 <div class="pgrid" style="grid-template-columns:repeat(auto-fill,minmax(150px,1fr))">${toneCells}</div>
 ${['workout', 'yoga'].map((cat) => `
