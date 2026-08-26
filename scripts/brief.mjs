@@ -38,7 +38,11 @@ const STYLE =
   'musculature, no fill shading, no colour, no background, no text. ' +
   'One consistent visual system across every frame and every exercise.';
 
-const FRAME_MEANING = { 1: 'the held position', 2: 'frame 1 the start position, frame 2 the effort/end position' };
+const FRAME_MEANING = {
+  1: 'the held position',
+  2: 'frame 1 the start position, frame 2 the effort/end position',
+  3: 'frame 1 the start position, frame 2 the mid-movement position, frame 3 the effort/end position',
+};
 
 let printed = 0;
 for (const r of PLAN) {

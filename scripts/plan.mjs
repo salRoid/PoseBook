@@ -83,6 +83,9 @@ const YOGA_VIEW_OVERRIDES = {
 const FRONT_FAMILIES = new Set(['standing', 'balance']);
 
 const HOLD = /plank|hold|hang|wall sit|l-sit|superman|hollow|bird dog/i;
+// Bryl's set — the art already in Health, and the quality bar — is THREE
+// frames per movement (start / mid / effort), and ExerciseFigure ping-pongs
+// whatever count it gets. New strength art matches that native rhythm.
 
 function rowFor(e) {
   const yoga = e.discipline === 'yoga';
@@ -92,7 +95,7 @@ function rowFor(e) {
     : (FRONT_STRENGTH.test(e.name) ? 'front' : 'side');
   const frames = yoga
     ? (e.id === 'yoga-marjaryasana-bitilasana' || slug === 'cat-cow' ? 2 : 1)
-    : (HOLD.test(e.name) ? 1 : 2);
+    : (HOLD.test(e.name) ? 1 : 3);
   const prop = equipFor(e.name);
   const tier = userLib.has(e.name.toLowerCase()) && !hasArt(e.id) ? 1
     : yoga ? 2
