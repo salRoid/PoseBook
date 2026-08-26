@@ -102,6 +102,7 @@ function rowFor(e) {
     : !hasArt(e.id) ? 3 : 4;
   return {
     id: e.id, name: e.name, slug, discipline: yoga ? 'yoga' : 'strength',
+    description: e.description,
     family: e.family ?? e.category, view, frames,
     prop, propStatus: prop ? (PROP_BUILT.has(prop) ? 'built' : 'todo') : null,
     tier, built: BUILT.has(slug), everkinetic: hasArt(e.id),

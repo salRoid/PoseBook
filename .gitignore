@@ -1,0 +1,7 @@
+node_modules/
+dist/
+frames/inbox/*
+!frames/inbox/.gitkeep
+parts/inbox/*
+!parts/inbox/.gitkeep
+.DS_Store

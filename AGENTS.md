@@ -1,44 +1,54 @@
 # For the generating agent
 
-Your ONLY job here: **generate body-part silhouette images and drop them in
-`parts/inbox/`.** Everything else — naming validation, vectorising, anchoring,
-assembling them into exercise figures — is code, and it runs on this side.
-You never write into `parts/manifest.json`, `dist/`, or `poses/`.
+Two pipelines run here. **Frames is the primary job** — the full exercise/asana
+catalogue as whole-figure art. **Parts** feeds the runtime rig and continues in
+parallel. Both are drop-in-inbox: everything mechanical is code on this side.
 
-## The loop
+## 1 · FRAMES — whole-figure strips (the catalogue, ~700 strips)
 
 ```bash
-npm run missing        # which parts are absent, each with its exact prompt
-#   …generate, LOOK AT IT, save as parts/inbox/<part>--<m|f>.png…
-npm run ingest         # validate → trace to vector → anchor → manifest
-npm run build          # re-render every exercise with the new parts
+npm run brief                    # writes dist/briefs.json — the whole queue
+#   …generate each brief's strip, save EXACTLY as brief.file…
+npm run ingest-frames            # cell grammar → background → split → corpus
 ```
 
-Open `dist/sheet.html` after a build and look at the figures. A part that is
-off its anchors assembles into a dislocated body — that is the failure mode
-here, and it is visible immediately.
+**`dist/briefs.json` is the queue.** Every record carries its own `file` and
+fully assembled `prompt` — use them verbatim, never paraphrase (the style
+prefix is parsed from `frames/STYLE.md`, versioned, and a reworded prefix
+across 700 strips is permanent drift).
 
-## The rules
+- **THE ANCHOR PROTOCOL:** generate `deadlift--m` FIRST and stop for
+  acceptance. Every batch afterwards is generated against that accepted
+  anchor's look, and each batch's first strip is compared to it before the
+  batch continues. This is how ~700 strips stay one visual system.
+- All frames of one movement go in ONE image — equal square cells, side by
+  side, per the brief's frame line. That is what guarantees within-movement
+  consistency.
+- Background must be TRANSPARENT (a dark background is tolerated and keyed;
+  an opaque white one is rejected — the ink is white).
+- A brief with `refs` carries rig skeleton frames: match those joint
+  positions exactly. A brief without refs carries the app's own movement
+  description — follow it, and expect a stricter human review on those.
+- **Never generate from Bryl Lim's / everkinetic's images** (img2img, edits,
+  tracing) — their art is CC BY-SA and a derivative inherits it, which
+  defeats the entire ownership goal. Style comes from the contract text only.
+- Work tier order: 1 (user's gap) → 2 (all asanas) → 3 → 4.
 
-- **Use the prompt `npm run missing` prints, verbatim.** Prompts are generated
-  from `parts/spec.mjs` — the single source of truth for the part list, canvas
-  sizes and anchor positions. Do not restate or improvise them.
-- **One part per image, nothing else in frame.** Solid single-colour
-  silhouette on white or transparency. No outline style, no shading, no
-  background, no face features.
-- **Anchors are a drawing convention, not a marker.** The part must be drawn
-  so its joints sit at the spec's canvas coordinates — that is what lets the
-  engine place it with no detection step.
-- **Joint ends rounded and slightly overlong** — parts overlap at the joints
-  to hide seams when a limb bends. A part that stops dead at its anchor
-  leaves a gap at every bent knee and elbow.
-- **A filename that is not `<part>--<m|f>.png` for a part in the spec is
-  rejected** by ingest. A filename cannot invent a part; adding one is a code
-  change in `parts/spec.mjs`.
-- Poses are none of your business: `poses/*.mjs` is settled joint-angle data,
-  and the parts you draw are its skin, not its replacement.
+## 2 · PARTS — the articulated rig library (runtime figure)
 
-Why parts and not whole poses: a part is drawn once and reused in every frame
-of every exercise, so there is no frame-to-frame consistency to lose — the
-thing that sank generated exercise art before (`Health/ATTRIBUTION.md`, 15
-rejections). Keep it that way.
+```bash
+npm run missing        # which body parts are absent, each with its prompt
+#   …generate → parts/inbox/<part>--<m|f>.png…
+npm run ingest         # trace → auto-register anchors → manifest
+```
+
+These power the measurement-driven, tone-driven personal figure — a different
+product from catalogue art, so this queue stays open. Same rules as before:
+prompts verbatim from `npm run missing`, one part per image, solid silhouette,
+filenames exactly as listed (a filename cannot invent a part).
+
+## Both pipelines
+
+- `npm run build` re-renders everything; **open `dist/sheet.html` and LOOK.**
+- A rejected file is deleted and regenerated, never routed around.
+- Poses (`poses/*.mjs`) are joint-angle data owned on this side — never edit.
