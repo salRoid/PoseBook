@@ -9,7 +9,8 @@
     "export": "node scripts/export-health.mjs",
     "missing": "node scripts/missing.mjs",
     "ingest": "node scripts/ingest.mjs",
-    "plan": "node scripts/plan.mjs"
+    "plan": "node scripts/plan.mjs",
+    "brief": "node scripts/brief.mjs"
   },
   "publishConfig": {
     "access": "restricted"

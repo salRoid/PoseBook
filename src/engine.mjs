@@ -121,10 +121,15 @@ function pts(j, view) {
   return out;
 }
 
+const cap = (c, r, op) => ({ kind: 'circle', c, r, fill: true, op, joint: true });
+
 function drawArm(F, L, op) {
   return [
     seg(L.shoulder, L.elbow, F.w.upper, op, 'upper-arm'),
     seg(L.elbow, L.wrist, F.w.fore, op, 'forearm-hand'),
+    cap(L.shoulder, F.w.upper * 0.62, op),
+    cap(L.elbow, F.w.fore * 0.6, op),
+    cap(L.wrist, F.w.fore * 0.5, op),
   ];
 }
 function drawLeg(F, L, op, view) {
@@ -132,6 +137,9 @@ function drawLeg(F, L, op, view) {
     seg(L.hip, L.knee, F.w.thigh, op, 'thigh'),
     seg(L.knee, L.ankle, F.w.shin, op, 'shin'),
     seg(L.ankle, L.toe, F.w.foot, op, view === 'side' ? 'foot-side' : 'foot-front'),
+    cap(L.hip, F.w.thigh * 0.62, op),
+    cap(L.knee, F.w.shin * 0.62, op),
+    cap(L.ankle, F.w.foot * 0.58, op),
   ];
 }
 
@@ -247,6 +255,14 @@ function propPts(props) {
 // tone needs the head split into layers — future spec work, noted.
 const PART_TINT = (slug) => (slug && slug.includes('shoe') ? 'attire' : 'skin');
 
+// Parts the compositor is allowed to use. Feet are deliberately absent: the
+// placeholder foot shapes assemble as detached blobs, and a clean stroke foot
+// beats a bad part every time — same rule as Foodsum's "nothing over wrong".
+const COMPOSITE_OK = new Set([
+  'head-side', 'head-front', 'torso-side', 'torso-front',
+  'thigh', 'shin', 'upper-arm', 'forearm-hand',
+]);
+
 /**
  * Render every frame of one exercise for one figure. ONE transform across all
  * frames, one shared ground line.
@@ -303,6 +319,7 @@ export function renderExercise(ex, sex, opts = {}) {
    * detection — the anchors are measured out of the ink at ingest.
    */
   const partEl = (e, op) => {
+    if (!COMPOSITE_OK.has(e.part)) return null;
     const rec = MANIFEST[`${e.part}--${sex}`];
     if (!rec) return null;
     const A = T(e.bone[0]), B = T(e.bone[1]);
@@ -348,7 +365,8 @@ export function renderExercise(ex, sex, opts = {}) {
         }
       } else if (e.kind === 'circle') {
         const C = T(e.c);
-        parts.push(`<circle cx="${n(C[0])}" cy="${n(C[1])}" r="${n(e.r * s)}"${e.fill ? ` fill="${gearFill}" stroke="none"` : ` fill="none" stroke-width="${n((e.w ?? 6) * s)}"`}${op}/>`);
+        const cFill = e.joint ? inkFill : gearFill;
+        parts.push(`<circle cx="${n(C[0])}" cy="${n(C[1])}" r="${n(e.r * s)}"${e.fill ? ` fill="${cFill}" stroke="none"` : ` fill="none" stroke-width="${n((e.w ?? 6) * s)}"`}${op}/>`);
       } else if (e.kind === 'path' || e.kind === 'poly') {
         const p = e.part && partEl(e, op);
         if (p) { parts.push(p); continue; }
