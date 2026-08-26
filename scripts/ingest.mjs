@@ -220,7 +220,7 @@ let ok = 0; const failures = [];
 
 for (const file of files) {
   try {
-    const m = basename(file, extname(file)).match(/^([a-z-]+)--([a-z])$/);
+    const m = basename(file, extname(file)).match(/^([a-z0-9-]+)--([mf])$/);
     if (!m || !SPEC.has(m[1]) || !SEXKEYS.has(m[2])) {
       throw new Error('name must be <part>--<m|f>.png for a part in parts/spec.mjs — run npm run missing for the list');
     }
