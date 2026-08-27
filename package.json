@@ -16,7 +16,8 @@
     "gallery": "node scripts/gallery.mjs",
     "review": "node scripts/review.mjs",
     "import-review": "node scripts/import-review.mjs",
-    "db": "node scripts/db.mjs"
+    "db": "node scripts/db.mjs",
+    "serve": "node scripts/serve.mjs"
   },
   "publishConfig": {
     "access": "restricted"

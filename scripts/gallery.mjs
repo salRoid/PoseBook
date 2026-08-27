@@ -178,7 +178,7 @@ const html = `<!doctype html><meta charset="utf-8"><title>Kinetic — what exist
   <button id="t">pause</button>
   <button id="save">save review →</button>
   <span class="count" id="cnt"></span>
-  <span class="count">notes autosave in this browser · “save review” downloads kinetic-review.json</span>
+  <span class="count">notes autosave in this browser · “save review” writes straight to frames/review.db when served via npm run serve</span>
 </div>
 
 <div class="filters">
@@ -357,19 +357,43 @@ document.querySelectorAll('.chip').forEach((chip) => {
 });
 applyFilters();
 
-document.getElementById('save').onclick = () => {
+// Direct-to-SQLite when served by npm run serve (same-origin POST reaches
+// db.mjs straight away); falls back to a file download when there is no
+// server to answer — opened as a plain file, or sent as a one-off snapshot.
+// The two paths write through the SAME function (applyReviewPayload), so
+// neither can disagree with the other about what "saving a review" means.
+document.getElementById('save').onclick = async () => {
   const out = {};
   for (const [k, v] of Object.entries(review)) {
     if (v.verdict || (v.note || '').trim()) out[k] = v;
   }
-  const blob = new Blob([JSON.stringify({
-    savedAt: new Date().toISOString(), items: out, overrides,
-  }, null, 1)], { type: 'application/json' });
+  const payload = { savedAt: new Date().toISOString(), items: out, overrides };
+  const btn = document.getElementById('save');
+  const original = btn.textContent;
+
+  try {
+    const res = await fetch('/api/review', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error('server responded ' + res.status);
+    const data = await res.json();
+    btn.textContent = 'saved to db ✓ (' + data.reviewCount + ')';
+    setTimeout(() => { btn.textContent = original; }, 2500);
+    return;
+  } catch {
+    // no server (opened as a plain file) — fall back to a download
+  }
+
+  const blob = new Blob([JSON.stringify(payload, null, 1)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = 'kinetic-review.json';
   a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  btn.textContent = 'downloaded (no server running)';
+  setTimeout(() => { btn.textContent = original; }, 2500);
 };
 </script>
 `;

@@ -74,6 +74,46 @@ export function currentOverrides(db) {
   return map;
 }
 
+/**
+ * Write one gallery submission — {items, overrides} — into the DB. Shared by
+ * both entry points: `import-review.mjs` (a downloaded JSON file) and
+ * `serve.mjs` (a direct POST from the browser). One writer means the two
+ * paths can never disagree about what "saving a review" does.
+ *
+ * Returns the rows just written, for the caller to report/act on.
+ */
+export function applyReviewPayload(db, payload) {
+  const items = payload.items ?? {};
+  const overrides = payload.overrides ?? {};
+  const submittedAt = payload.savedAt ?? new Date().toISOString();
+
+  const insertReview = db.prepare(
+    `INSERT INTO reviews (slug, sex, verdict, note, source, submitted_at) VALUES (?, ?, ?, ?, ?, ?)`,
+  );
+  const upsertOverride = db.prepare(`
+    INSERT INTO movement_overrides (slug, view, frames, updated_at)
+    VALUES (?, ?, ?, datetime('now'))
+    ON CONFLICT(slug) DO UPDATE SET view = excluded.view, frames = excluded.frames, updated_at = excluded.updated_at
+  `);
+
+  const reviewRows = [];
+  db.exec('BEGIN');
+  for (const [key, rec] of Object.entries(items)) {
+    const [slug, sex] = key.split('--');
+    if (!slug || !sex) continue;
+    insertReview.run(slug, sex, rec.verdict ?? null, rec.note ?? null, payload.source ?? 'gallery', submittedAt);
+    reviewRows.push({ slug, sex, verdict: rec.verdict ?? null, note: rec.note ?? null });
+  }
+  const overrideRows = [];
+  for (const [slug, ov] of Object.entries(overrides)) {
+    upsertOverride.run(slug, ov.view ?? null, ov.frames ?? null);
+    overrideRows.push({ slug, ...ov });
+  }
+  db.exec('COMMIT');
+
+  return { reviewRows, overrideRows };
+}
+
 if (import.meta.url === `file://${process.argv[1]}`) {
   const db = openDb();
   const reviews = currentReviews(db);

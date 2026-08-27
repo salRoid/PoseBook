@@ -28,7 +28,7 @@ import { readFileSync, existsSync, rmSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { homedir } from 'node:os';
 import { fileURLToPath } from 'node:url';
-import { openDb } from './db.mjs';
+import { openDb, applyReviewPayload } from './db.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const CORPUS = join(ROOT, 'frames', 'corpus');
@@ -43,36 +43,11 @@ if (!existsSync(src)) {
 }
 
 const incoming = JSON.parse(readFileSync(src, 'utf8'));
-const items = incoming.items ?? {};
-const overrides = incoming.overrides ?? {};
-const submittedAt = incoming.savedAt ?? new Date().toISOString();
-
 const db = openDb();
-const insertReview = db.prepare(
-  `INSERT INTO reviews (slug, sex, verdict, note, source, submitted_at) VALUES (?, ?, ?, ?, ?, ?)`,
-);
-const upsertOverride = db.prepare(`
-  INSERT INTO movement_overrides (slug, view, frames, updated_at)
-  VALUES (?, ?, ?, datetime('now'))
-  ON CONFLICT(slug) DO UPDATE SET view = excluded.view, frames = excluded.frames, updated_at = excluded.updated_at
-`);
-
-let reviewCount = 0, overrideCount = 0;
-db.exec('BEGIN');
-for (const [key, rec] of Object.entries(items)) {
-  const [slug, sex] = key.split('--');
-  if (!slug || !sex) continue;
-  insertReview.run(slug, sex, rec.verdict ?? null, rec.note ?? null, src, submittedAt);
-  reviewCount++;
-}
-for (const [slug, ov] of Object.entries(overrides)) {
-  upsertOverride.run(slug, ov.view ?? null, ov.frames ?? null, );
-  overrideCount++;
-}
-db.exec('COMMIT');
+const { reviewRows, overrideRows } = applyReviewPayload(db, { ...incoming, source: src });
 
 console.log(`\n── kinetic · import-review ── from ${src}\n`);
-console.log(`  ${reviewCount} review row(s) logged · ${overrideCount} movement override(s) applied\n`);
+console.log(`  ${reviewRows.length} review row(s) logged · ${overrideRows.length} movement override(s) applied\n`);
 
 const redo = db.prepare(`
   SELECT r.slug, r.sex, r.note FROM reviews r
@@ -97,8 +72,8 @@ if (redo.length) {
   }
 }
 
-if (overrideCount) {
-  const rows = db.prepare(`SELECT slug, view, frames FROM movement_overrides ORDER BY updated_at DESC LIMIT ?`).all(overrideCount);
+if (overrideRows.length) {
+  const rows = db.prepare(`SELECT slug, view, frames FROM movement_overrides ORDER BY updated_at DESC LIMIT ?`).all(overrideRows.length);
   console.log(`OVERRIDES applied:`);
   for (const r of rows) console.log(`  ${r.slug}  →  view: ${r.view ?? '(plan default)'}, frames: ${r.frames ?? '(plan default)'}`);
   console.log('');
