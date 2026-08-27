@@ -14,7 +14,9 @@
     "ingest-frames": "node scripts/ingest-frames.mjs",
     "status": "node scripts/status.mjs",
     "gallery": "node scripts/gallery.mjs",
-    "review": "node scripts/review.mjs"
+    "review": "node scripts/review.mjs",
+    "import-review": "node scripts/import-review.mjs",
+    "db": "node scripts/db.mjs"
   },
   "publishConfig": {
     "access": "restricted"

@@ -15,6 +15,7 @@
 import { readFileSync, writeFileSync, readdirSync, existsSync, statSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { openDb, currentReviews, currentOverrides } from './db.mjs';
 
 const { default: sharp } = await import('sharp');
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -24,6 +25,13 @@ const REP_MS = 2080;
 
 const PLAN = JSON.parse(readFileSync(join(ROOT, 'poses', 'PLAN.json'), 'utf8'));
 const BYSLUG = new Map(PLAN.map((r) => [r.slug, r]));
+
+// Prior review state, so a reopened gallery shows what was already decided
+// instead of asking the reviewer to redo work every time the page rebuilds.
+const db = openDb();
+const REVIEWS = currentReviews(db);
+const OVERRIDES = currentOverrides(db);
+db.close();
 
 const items = [];
 if (existsSync(CORPUS)) {
@@ -48,12 +56,20 @@ if (existsSync(CORPUS)) {
         frames.push(`data:image/png;base64,${png.toString('base64')}`);
       }
       const plan = BYSLUG.get(slug) ?? {};
+      const ov = OVERRIDES.get(slug);
+      const wantFrames = ov?.frames ?? plan.frames ?? frames.length;
+      const wantView = ov?.view ?? plan.view ?? 'side';
+      const rv = REVIEWS.get(`${slug}--${sex}`);
       items.push({
         slug, sex, frames,
         name: plan.name ?? slug,
         discipline: plan.discipline ?? 'strength',
-        want: plan.frames ?? frames.length,
-        stale: (plan.frames ?? frames.length) !== frames.length,
+        want: wantFrames,
+        view: wantView,
+        planView: plan.view ?? 'side',
+        stale: wantFrames !== frames.length,
+        verdict: rv?.verdict ?? null,
+        note: rv?.note ?? '',
       });
     }
   }
@@ -65,19 +81,31 @@ const totalBriefs = PLAN.length * 2;
 
 // Every card carries its own review controls. The key is `<slug>--<sex>`,
 // which is the same id the briefs, the corpus and `npm run status` use — so a
-// note written here addresses exactly one regeneratable unit.
-const card = (it, i) => `
-  <figure class="c${it.stale ? ' stale' : ''}" data-i="${i}" data-key="${it.slug}--${it.sex}">
+// note written here addresses exactly one regeneratable unit. View/frames are
+// a MOVEMENT property (both bodies share a viewpoint), so those two controls
+// are keyed on the slug alone and appear once per movement, on its FIRST
+// card, rather than duplicated per sex — changing it there updates both.
+const VIEWS = ['side', 'front', 'back', '34'];
+const viewLabel = { side: 'Side', front: 'Front', back: 'Back', '34': 'Three-quarter' };
+const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+const card = (it, i, showMovementControls) => `
+  <figure class="c${it.stale ? ' stale' : ''}" data-i="${i}" data-key="${it.slug}--${it.sex}" data-slug="${it.slug}"
+          data-verdict="${it.verdict ?? ''}" data-note="${esc(it.note)}">
     <div class="stage">${it.frames.map((d, k) => `<img src="${d}" alt="" class="${k === 0 ? 'on' : ''}">`).join('')}</div>
     <figcaption>
       <span class="nm">${it.name}</span>
       <span class="sx">${it.sex === 'm' ? '♂' : '♀'}</span>
     </figcaption>
-    <div class="sub">${it.frames.length} frame${it.frames.length > 1 ? 's' : ''}${it.stale ? ` · STALE, plan wants ${it.want}` : ''}</div>
+    <div class="sub" data-plan-view="${it.planView}">${it.frames.length} frame${it.frames.length > 1 ? 's' : ''} · ${viewLabel[it.view] ?? it.view}${it.stale ? ` · STALE, plan wants ${it.want}` : ''}${it.view !== it.planView ? ` · view overridden (plan: ${viewLabel[it.planView]})` : ''}</div>
     <div class="rv">
       <button class="v ok"   data-v="ok">keep</button>
       <button class="v redo" data-v="redo">redo</button>
       <textarea class="note" rows="2" placeholder="what's wrong / what to change…"></textarea>
+      ${showMovementControls ? `
+      <div class="mv">
+        <label>View <select class="ov-view">${VIEWS.map((v) => `<option value="${v}"${v === it.view ? ' selected' : ''}>${viewLabel[v]}</option>`).join('')}</select></label>
+        <label>Frames <select class="ov-frames">${[1, 2, 3, 4].map((n) => `<option value="${n}"${n === it.want ? ' selected' : ''}>${n}</option>`).join('')}</select></label>
+      </div>` : ''}
     </div>
   </figure>`;
 
@@ -108,6 +136,11 @@ const html = `<!doctype html><meta charset="utf-8"><title>Kinetic — what exist
         border-radius:99px;padding:7px 15px;font:inherit;cursor:pointer}
  button:hover{border-color:var(--ok)}
  .rv{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px}
+ .mv{flex:1 1 100%;display:flex;gap:14px;margin-top:4px;padding-top:8px;border-top:1px dashed var(--line)}
+ .mv label{font-size:11px;color:var(--dim);display:flex;align-items:center;gap:5px}
+ .mv select{background:#0c100f;color:var(--ink);border:1px solid var(--line);border-radius:6px;
+            padding:3px 6px;font:12px inherit}
+ .mv select:focus{outline:none;border-color:var(--ok)}
  .v{padding:3px 11px;font-size:12px;border-radius:99px;opacity:.55}
  .v.on{opacity:1;font-weight:700}
  .v.ok.on{border-color:var(--ok);color:var(--ok)}
@@ -135,10 +168,16 @@ const html = `<!doctype html><meta charset="utf-8"><title>Kinetic — what exist
 </div>
 
 <h2>strength (${strength.length})</h2>
-<div class="grid">${strength.map((it, i) => card(it, i)).join('')}</div>
+<div class="grid">${(() => { const seen = new Set(); return strength.map((it, i) => {
+  const first = !seen.has(it.slug); seen.add(it.slug);
+  return card(it, i, first);
+}).join(''); })()}</div>
 
 <h2>yoga (${yoga.length})</h2>
-<div class="grid">${yoga.map((it, i) => card(it, strength.length + i)).join('')}</div>
+<div class="grid">${(() => { const seen = new Set(); return yoga.map((it, i) => {
+  const first = !seen.has(it.slug); seen.add(it.slug);
+  return card(it, strength.length + i, first);
+}).join(''); })()}</div>
 
 <script>
 // Ping-pong 1→2→3→2, one rep per REP_MS regardless of frame count, so every
@@ -169,13 +208,31 @@ document.getElementById('t').onclick = (e) => {
 };
 
 // ── review capture ─────────────────────────────────────────────────────────
-// Notes live in localStorage keyed by slug and sex so a rebuilt gallery keeps
-// every comment (the page is regenerated constantly; the review must not be).
-// "save review" downloads one JSON that the review script reads back.
+// Two kinds of state, both round-tripped through frames/review.db:
+//   review[key]      — per-card verdict/note, key = "<slug>--<sex>"
+//   overrides[slug]  — per-MOVEMENT view/frame choice (both bodies share one)
+// localStorage is the safety net between "typed it" and "ran npm run review"
+// — the page rebuilds constantly and a note must survive that. Whatever the
+// server already knows (from the last DB import) seeds the initial state, so
+// reopening a freshly-built gallery shows prior decisions instead of asking
+// the reviewer to redo them.
 const KEY = 'kinetic.review.v1';
-const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } };
-const save = (r) => { try { localStorage.setItem(KEY, JSON.stringify(r)); } catch {} };
-let review = load();
+const OKEY = 'kinetic.overrides.v1';
+const load = (k) => { try { return JSON.parse(localStorage.getItem(k)) || {}; } catch { return {}; } };
+const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
+
+let review = load(KEY);
+let overrides = load(OKEY);
+// server state wins for anything localStorage has no OPINION on yet (first
+// load on a new browser, or after clearing storage) — never overwrites a
+// pending unsaved edit sitting in localStorage.
+for (const fig of document.querySelectorAll('figure.c')) {
+  const key = fig.dataset.key, slug = fig.dataset.slug;
+  if (fig.dataset.verdict || fig.dataset.note) {
+    review[key] = review[key] || { verdict: fig.dataset.verdict || undefined, note: fig.dataset.note || '' };
+  }
+}
+save(KEY, review);
 
 function paint(fig, rec) {
   fig.classList.toggle('v-ok', rec?.verdict === 'ok');
@@ -186,11 +243,13 @@ function paint(fig, rec) {
 }
 function count() {
   const n = Object.values(review).filter((r) => r.verdict || (r.note || '').trim()).length;
-  document.getElementById('cnt').textContent = n ? n + ' reviewed' : 'no notes yet';
+  const o = Object.keys(overrides).length;
+  document.getElementById('cnt').textContent =
+    (n ? n + ' reviewed' : 'no notes yet') + (o ? ' · ' + o + ' view/frame change(s)' : '');
 }
 
 for (const fig of document.querySelectorAll('figure.c')) {
-  const key = fig.dataset.key;
+  const key = fig.dataset.key, slug = fig.dataset.slug;
   const rec = review[key];
   if (rec?.note) fig.querySelector('.note').value = rec.note;
   paint(fig, rec);
@@ -198,14 +257,25 @@ for (const fig of document.querySelectorAll('figure.c')) {
     btn.onclick = () => {
       const cur = review[key] || {};
       cur.verdict = cur.verdict === btn.dataset.v ? undefined : btn.dataset.v;
-      review[key] = cur; save(review); paint(fig, cur); count();
+      review[key] = cur; save(KEY, review); paint(fig, cur); count();
     };
   });
   fig.querySelector('.note').addEventListener('input', (e) => {
     const cur = review[key] || {};
     cur.note = e.target.value;
-    review[key] = cur; save(review); paint(fig, cur); count();
+    review[key] = cur; save(KEY, review); count();
   });
+
+  // movement-level controls exist on one card per slug only
+  const vSel = fig.querySelector('.ov-view'), fSel = fig.querySelector('.ov-frames');
+  if (vSel && fSel) {
+    const record = () => {
+      overrides[slug] = { view: vSel.value, frames: Number(fSel.value) };
+      save(OKEY, overrides); count();
+    };
+    vSel.addEventListener('change', record);
+    fSel.addEventListener('change', record);
+  }
 }
 count();
 
@@ -214,8 +284,9 @@ document.getElementById('save').onclick = () => {
   for (const [k, v] of Object.entries(review)) {
     if (v.verdict || (v.note || '').trim()) out[k] = v;
   }
-  const blob = new Blob([JSON.stringify({ savedAt: new Date().toISOString(), items: out }, null, 1)],
-    { type: 'application/json' });
+  const blob = new Blob([JSON.stringify({
+    savedAt: new Date().toISOString(), items: out, overrides,
+  }, null, 1)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = 'kinetic-review.json';

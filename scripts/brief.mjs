@@ -23,9 +23,20 @@
 import { readFileSync, writeFileSync, existsSync, readdirSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { openDb, currentReviews, currentOverrides } from './db.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const PLAN = JSON.parse(readFileSync(join(ROOT, 'poses', 'PLAN.json'), 'utf8'));
+
+// ── review feedback loop ─────────────────────────────────────────────────
+// This is what makes review "automatic": an override changes what a brief
+// ASKS for, and a rejection note travels into the NEXT prompt as a correction
+// — the generating side sees exactly why the last attempt was rejected
+// instead of guessing from a deleted file.
+const _db = openDb();
+const REVIEWS = currentReviews(_db);
+const OVERRIDES = currentOverrides(_db);
+_db.close();
 
 // ── style contract, parsed never restated ───────────────────────────────────
 const styleMd = readFileSync(join(ROOT, 'frames', 'STYLE.md'), 'utf8');
@@ -59,7 +70,14 @@ const tier = tierIdx >= 0 ? Number(argv[tierIdx + 1]) : null;
 const only = argv.find((a) => !a.startsWith('--') && a !== String(tier));
 
 const briefs = [];
+let overriddenCount = 0, correctionCount = 0;
 for (const r of PLAN) {
+  const ov = OVERRIDES.get(r.slug);
+  const view = ov?.view ?? r.view;
+  const frames = ov?.frames ?? r.frames;
+  const isOverridden = !!(ov?.view || ov?.frames);
+  if (isOverridden) overriddenCount++;
+
   for (const sex of ['m', 'f']) {
     const refDir = join(ROOT, 'dist', 'svg', r.slug, sex);
     const refs = existsSync(refDir)
@@ -70,14 +88,28 @@ for (const r of PLAN) {
     const poseGuide = refs.length
       ? 'Match the joint positions of the attached skeleton reference frames exactly.'
       : `Movement guidance: ${r.description}`;
+
+    // A rejected strip's note becomes a CORRECTION on its next brief — the
+    // whole point of reading review back in: Codex sees why it failed, not
+    // just that it must try again.
+    const rv = REVIEWS.get(`${r.slug}--${sex}`);
+    let correction = '';
+    if (rv?.verdict === 'redo') {
+      correctionCount++;
+      correction = rv.note && rv.note.trim()
+        ? ` CORRECTION — the previous attempt was rejected: "${rv.note.trim()}". Do not repeat that.`
+        : ' CORRECTION — the previous attempt was rejected on review; match the style contract exactly.';
+    }
+
     briefs.push({
-      slug: r.slug, sex, tier: r.tier, frames: r.frames, view: r.view,
+      slug: r.slug, sex, tier: r.tier, frames, view,
+      overridden: isOverridden, redo: rv?.verdict === 'redo',
       styleVersion,
       file: `frames/inbox/${r.slug}--${sex}.png`,
       refs,
       prompt:
-        `${prefix} ${FRAME_MEANING[r.discipline][r.frames] ?? FRAME_MEANING[r.discipline][3]} ` +
-        `Subject: ${FIGURE[sex]}, ${feet}, performing ${r.name}${prop}, ${r.view} view. ${poseGuide}`,
+        `${prefix} ${FRAME_MEANING[r.discipline][frames] ?? FRAME_MEANING[r.discipline][3]} ` +
+        `Subject: ${FIGURE[sex]}, ${feet}, performing ${r.name}${prop}, ${view} view. ${poseGuide}${correction}`,
     });
   }
 }
@@ -100,3 +132,5 @@ if (only || tier) {
   }
 }
 console.log(`briefs: ${briefs.length} written to dist/briefs.json (${withRef} with rig references, ${briefs.length - withRef} on catalogue descriptions) · style ${styleVersion} · anchor: deadlift--m first`);
+if (overriddenCount) console.log(`  ${overriddenCount} movement(s) carry a view/frame override from review`);
+if (correctionCount) console.log(`  ${correctionCount} brief(s) carry a rejection correction from review`);
