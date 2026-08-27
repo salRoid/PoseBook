@@ -41,7 +41,36 @@ const files = readdirSync(INBOX)
   .filter((f) => !f.startsWith('.') && f !== 'done' && statSync(join(INBOX, f)).isFile())
   .sort();
 if (files.length === 0) {
-  console.log('\nkinetic: frames/inbox/ is empty. dist/briefs.json is the queue (npm run brief).\n');
+  // An empty inbox means the GENERATION step has not happened — this script
+  // only files strips, it does not create them. Print the next brief in full
+  // so the message is an instruction, not a fact: an agent that lands here
+  // has everything it needs to act without reading another file.
+  const bp = join(ROOT, 'dist', 'briefs.json');
+  console.log('\nkinetic: frames/inbox/ is empty — nothing to ingest.');
+  console.log('This step FILES strips; it does not generate them. Generate first, then re-run.\n');
+  if (existsSync(bp)) {
+    const { anchor, briefs } = JSON.parse(readFileSync(bp, 'utf8'));
+    const done = new Set(existsSync(CORPUS)
+      ? readdirSync(CORPUS).flatMap((slug) => {
+          const d = join(CORPUS, slug);
+          return statSync(d).isDirectory() ? readdirSync(d).map((sx) => `${slug}--${sx}`) : [];
+        })
+      : []);
+    const anchorDone = done.has(anchor);
+    const next = briefs.find((b) => (anchorDone ? !done.has(`${b.slug}--${b.sex}`) : `${b.slug}--${b.sex}` === anchor));
+    if (next) {
+      console.log(anchorDone
+        ? `NEXT (${briefs.length - done.size} of ${briefs.length} remaining):`
+        : `THE ANCHOR — generate this one first, then stop for review:`);
+      console.log(`\n  save as: ${next.file}`);
+      if (next.refs.length) console.log(`  pose reference: ${next.refs.join(' · ')}`);
+      console.log(`\n  ${next.prompt}\n`);
+    } else {
+      console.log('Every brief has been ingested. Nothing left to generate.\n');
+    }
+  } else {
+    console.log('Run `npm run brief` first to write dist/briefs.json (the queue).\n');
+  }
   process.exit(0);
 }
 

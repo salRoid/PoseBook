@@ -14,6 +14,7 @@ export const WORKOUT = [
     slug: 'squat', name: 'Bodyweight Squat', view: 'side',
     frames: [
       { ...STAND, armNear: [-80, -70] },
+      { torso: 76, neck: 84, armNear: [-42, -30], legNear: [-62, -110, 0] },
       { torso: 62, neck: 78, armNear: [-8, 2], legNear: [-38, -128, 0] },
     ],
   },
@@ -21,6 +22,7 @@ export const WORKOUT = [
     slug: 'push-up', name: 'Push-Up', view: 'side',
     frames: [
       { torso: 14, neck: 22, armNear: [-86, -90], legNear: [-160, -163, -100] },
+      { torso: 11, neck: 24, armNear: [-124, -78], legNear: [-163, -166, -101] },
       { torso: 8, neck: 26, armNear: [-168, -62], legNear: [-166, -169, -102] },
     ],
   },
@@ -28,6 +30,7 @@ export const WORKOUT = [
     slug: 'deadlift', name: 'Deadlift', view: 'side',
     frames: [
       { torso: 38, neck: 55, armNear: [-85, -88], legNear: [-55, -108, 0], props: [{ type: 'barbell' }] },
+      { torso: 62, neck: 72, armNear: [-88, -89], legNear: [-72, -99, 0], props: [{ type: 'barbell' }] },
       { torso: 88, neck: 90, armNear: [-90, -90], legNear: [-90, -90, 0], props: [{ type: 'barbell' }] },
     ],
   },
@@ -41,6 +44,12 @@ export const WORKOUT = [
     slug: 'lunge', name: 'Lunge', view: 'side',
     frames: [
       STAND,
+      {
+        torso: 88, neck: 89,
+        armNear: [-85, -85],
+        legNear: [-68, -92, 0],
+        legFar: [-108, -122, -40],
+      },
       {
         torso: 85, neck: 88,
         armNear: [-85, -85],
@@ -70,6 +79,7 @@ export const WORKOUT = [
     slug: 'biceps-curl', name: 'Biceps Curl', view: 'side',
     frames: [
       { torso: 90, neck: 90, armNear: [-82, -80], legNear: [-90, -90, 0], props: [{ type: 'dumbbell' }] },
+      { torso: 90, neck: 90, armNear: [-82, -20], legNear: [-90, -90, 0], props: [{ type: 'dumbbell' }] },
       { torso: 90, neck: 90, armNear: [-82, 42], legNear: [-90, -90, 0], props: [{ type: 'dumbbell' }] },
     ],
   },
@@ -94,6 +104,7 @@ export const WORKOUT = [
     slug: 'crunch', name: 'Crunch', view: 'side',
     frames: [
       { torso: 4, neck: 14, armNear: [172, 168], legNear: [148, -124, 178] },
+      { torso: 14, bend: -5, neck: 30, armNear: [175, 170], legNear: [148, -124, 178] },
       { torso: 24, bend: -10, neck: 46, armNear: [178, 172], legNear: [148, -124, 178] },
     ],
   },
