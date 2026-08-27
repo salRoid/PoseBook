@@ -12,7 +12,8 @@
     "plan": "node scripts/plan.mjs",
     "brief": "node scripts/brief.mjs",
     "ingest-frames": "node scripts/ingest-frames.mjs",
-    "status": "node scripts/status.mjs"
+    "status": "node scripts/status.mjs",
+    "gallery": "node scripts/gallery.mjs"
   },
   "publishConfig": {
     "access": "restricted"
