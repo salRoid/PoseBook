@@ -63,14 +63,22 @@ const strength = items.filter((i) => i.discipline === 'strength');
 const yoga = items.filter((i) => i.discipline === 'yoga');
 const totalBriefs = PLAN.length * 2;
 
+// Every card carries its own review controls. The key is `<slug>--<sex>`,
+// which is the same id the briefs, the corpus and `npm run status` use — so a
+// note written here addresses exactly one regeneratable unit.
 const card = (it, i) => `
-  <figure class="c${it.stale ? ' stale' : ''}" data-i="${i}">
+  <figure class="c${it.stale ? ' stale' : ''}" data-i="${i}" data-key="${it.slug}--${it.sex}">
     <div class="stage">${it.frames.map((d, k) => `<img src="${d}" alt="" class="${k === 0 ? 'on' : ''}">`).join('')}</div>
     <figcaption>
       <span class="nm">${it.name}</span>
       <span class="sx">${it.sex === 'm' ? '♂' : '♀'}</span>
     </figcaption>
     <div class="sub">${it.frames.length} frame${it.frames.length > 1 ? 's' : ''}${it.stale ? ` · STALE, plan wants ${it.want}` : ''}</div>
+    <div class="rv">
+      <button class="v ok"   data-v="ok">keep</button>
+      <button class="v redo" data-v="redo">redo</button>
+      <textarea class="note" rows="2" placeholder="what's wrong / what to change…"></textarea>
+    </div>
   </figure>`;
 
 const html = `<!doctype html><meta charset="utf-8"><title>Kinetic — what exists so far</title>
@@ -99,11 +107,32 @@ const html = `<!doctype html><meta charset="utf-8"><title>Kinetic — what exist
  button{background:var(--panel);color:var(--ink);border:1px solid var(--line);
         border-radius:99px;padding:7px 15px;font:inherit;cursor:pointer}
  button:hover{border-color:var(--ok)}
+ .rv{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px}
+ .v{padding:3px 11px;font-size:12px;border-radius:99px;opacity:.55}
+ .v.on{opacity:1;font-weight:700}
+ .v.ok.on{border-color:var(--ok);color:var(--ok)}
+ .v.redo.on{border-color:var(--warn);color:var(--warn)}
+ .note{flex:1 1 100%;background:#0c100f;color:var(--ink);border:1px solid var(--line);
+       border-radius:8px;padding:6px 8px;font:12px/1.4 inherit;resize:vertical}
+ .note:focus{outline:none;border-color:var(--ok)}
+ .note.has{border-color:var(--ok)}
+ figure.v-redo{border-color:var(--warn)}
+ figure.v-ok{border-color:var(--ok)}
+ .exportbar{position:sticky;top:0;z-index:9;background:var(--bg);padding:10px 0 14px;
+            margin-bottom:6px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+            border-bottom:1px solid var(--line)}
+ .count{color:var(--dim);font-size:13px}
+ #save{border-color:var(--ok);color:var(--ok);font-weight:700}
 </style>
 <h1>Kinetic — what exists so far</h1>
 <p class="lede"><b>${items.length}</b> of ${totalBriefs} strips ingested · ${strength.length} strength · ${yoga.length} yoga · frames animate at Health's own ${REP_MS}ms rep</p>
 <div class="bar"><i style="width:${(items.length / totalBriefs * 100).toFixed(1)}%"></i></div>
-<div class="controls"><button id="t">pause</button></div>
+<div class="exportbar">
+  <button id="t">pause</button>
+  <button id="save">save review →</button>
+  <span class="count" id="cnt"></span>
+  <span class="count">notes autosave in this browser · “save review” downloads kinetic-review.json</span>
+</div>
 
 <h2>strength (${strength.length})</h2>
 <div class="grid">${strength.map((it, i) => card(it, i)).join('')}</div>
@@ -138,9 +167,69 @@ requestAnimationFrame(tick);
 document.getElementById('t').onclick = (e) => {
   playing = !playing; e.target.textContent = playing ? 'pause' : 'play';
 };
+
+// ── review capture ─────────────────────────────────────────────────────────
+// Notes live in localStorage keyed by slug and sex so a rebuilt gallery keeps
+// every comment (the page is regenerated constantly; the review must not be).
+// "save review" downloads one JSON that the review script reads back.
+const KEY = 'kinetic.review.v1';
+const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } };
+const save = (r) => { try { localStorage.setItem(KEY, JSON.stringify(r)); } catch {} };
+let review = load();
+
+function paint(fig, rec) {
+  fig.classList.toggle('v-ok', rec?.verdict === 'ok');
+  fig.classList.toggle('v-redo', rec?.verdict === 'redo');
+  fig.querySelectorAll('.v').forEach((b) => b.classList.toggle('on', b.dataset.v === rec?.verdict));
+  const ta = fig.querySelector('.note');
+  ta.classList.toggle('has', !!(rec?.note || '').trim());
+}
+function count() {
+  const n = Object.values(review).filter((r) => r.verdict || (r.note || '').trim()).length;
+  document.getElementById('cnt').textContent = n ? n + ' reviewed' : 'no notes yet';
+}
+
+for (const fig of document.querySelectorAll('figure.c')) {
+  const key = fig.dataset.key;
+  const rec = review[key];
+  if (rec?.note) fig.querySelector('.note').value = rec.note;
+  paint(fig, rec);
+  fig.querySelectorAll('.v').forEach((btn) => {
+    btn.onclick = () => {
+      const cur = review[key] || {};
+      cur.verdict = cur.verdict === btn.dataset.v ? undefined : btn.dataset.v;
+      review[key] = cur; save(review); paint(fig, cur); count();
+    };
+  });
+  fig.querySelector('.note').addEventListener('input', (e) => {
+    const cur = review[key] || {};
+    cur.note = e.target.value;
+    review[key] = cur; save(review); paint(fig, cur); count();
+  });
+}
+count();
+
+document.getElementById('save').onclick = () => {
+  const out = {};
+  for (const [k, v] of Object.entries(review)) {
+    if (v.verdict || (v.note || '').trim()) out[k] = v;
+  }
+  const blob = new Blob([JSON.stringify({ savedAt: new Date().toISOString(), items: out }, null, 1)],
+    { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'kinetic-review.json';
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+};
 </script>
 `;
 
+// Written to BOTH dist/ (build output) and reviews/ (committed): dist is
+// disposable and gitignored, and a review page that vanishes on the next
+// clean is not somewhere to leave comments.
 mkdirSync(join(ROOT, 'dist'), { recursive: true });
+mkdirSync(join(ROOT, 'reviews'), { recursive: true });
 writeFileSync(join(ROOT, 'dist', 'gallery.html'), html);
-console.log(`gallery: ${items.length} movements (${strength.length} strength, ${yoga.length} yoga) → dist/gallery.html`);
+writeFileSync(join(ROOT, 'reviews', 'gallery.html'), html);
+console.log(`gallery: ${items.length} movements (${strength.length} strength, ${yoga.length} yoga) → dist/gallery.html + reviews/gallery.html`);
