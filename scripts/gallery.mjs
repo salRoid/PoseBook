@@ -90,7 +90,7 @@ const viewLabel = { side: 'Side', front: 'Front', back: 'Back', '34': 'Three-qua
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/"/g, '&quot;');
 const card = (it, i, showMovementControls) => `
   <figure class="c${it.stale ? ' stale' : ''}" data-i="${i}" data-key="${it.slug}--${it.sex}" data-slug="${it.slug}"
-          data-verdict="${it.verdict ?? ''}" data-note="${esc(it.note)}">
+          data-verdict="${it.verdict ?? ''}" data-note="${esc(it.note)}" data-view="${it.view}" data-stale="${it.stale ? '1' : '0'}">
     <div class="stage">${it.frames.map((d, k) => `<img src="${d}" alt="" class="${k === 0 ? 'on' : ''}">`).join('')}</div>
     <figcaption>
       <span class="nm">${it.name}</span>
@@ -98,8 +98,10 @@ const card = (it, i, showMovementControls) => `
     </figcaption>
     <div class="sub" data-plan-view="${it.planView}">${it.frames.length} frame${it.frames.length > 1 ? 's' : ''} · ${viewLabel[it.view] ?? it.view}${it.stale ? ` · STALE, plan wants ${it.want}` : ''}${it.view !== it.planView ? ` · view overridden (plan: ${viewLabel[it.planView]})` : ''}</div>
     <div class="rv">
-      <button class="v ok"   data-v="ok">keep</button>
-      <button class="v redo" data-v="redo">redo</button>
+      <div class="vbtns">
+        <button class="v ok"   data-v="ok">keep</button>
+        <button class="v redo" data-v="redo">redo</button>
+      </div>
       <textarea class="note" rows="2" placeholder="what's wrong / what to change…"></textarea>
       ${showMovementControls ? `
       <div class="mv">
@@ -120,8 +122,9 @@ const html = `<!doctype html><meta charset="utf-8"><title>Kinetic — what exist
  .lede{color:var(--dim);margin:0 0 18px}
  .bar{height:8px;border-radius:99px;background:var(--line);overflow:hidden;max-width:560px}
  .bar i{display:block;height:100%;background:var(--ok)}
- .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px}
- .c{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px}
+ .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+ .c{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;
+     display:flex;flex-direction:column}
  .c.stale{border-color:var(--warn)}
  .stage{position:relative;aspect-ratio:1;background:#0c100f;border-radius:10px;overflow:hidden}
  .stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .12s linear}
@@ -135,13 +138,14 @@ const html = `<!doctype html><meta charset="utf-8"><title>Kinetic — what exist
  button{background:var(--panel);color:var(--ink);border:1px solid var(--line);
         border-radius:99px;padding:7px 15px;font:inherit;cursor:pointer}
  button:hover{border-color:var(--ok)}
- .rv{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px}
- .mv{flex:1 1 100%;display:flex;gap:14px;margin-top:4px;padding-top:8px;border-top:1px dashed var(--line)}
- .mv label{font-size:11px;color:var(--dim);display:flex;align-items:center;gap:5px}
- .mv select{background:#0c100f;color:var(--ink);border:1px solid var(--line);border-radius:6px;
-            padding:3px 6px;font:12px inherit}
+ .rv{margin-top:9px;display:flex;flex-direction:column;gap:8px}
+ .vbtns{display:flex;gap:6px}
+ .mv{flex:1 1 100%;display:flex;flex-direction:column;gap:6px;margin-top:4px;padding-top:8px;border-top:1px dashed var(--line)}
+ .mv label{font-size:11px;color:var(--dim);display:flex;align-items:center;justify-content:space-between;gap:8px}
+ .mv select{flex:1;min-width:0;background:#0c100f;color:var(--ink);border:1px solid var(--line);border-radius:6px;
+            padding:4px 6px;font:12px inherit}
  .mv select:focus{outline:none;border-color:var(--ok)}
- .v{padding:3px 11px;font-size:12px;border-radius:99px;opacity:.55}
+ .v{flex:1;padding:6px 0;font-size:12px;border-radius:8px;opacity:.6;text-align:center}
  .v.on{opacity:1;font-weight:700}
  .v.ok.on{border-color:var(--ok);color:var(--ok)}
  .v.redo.on{border-color:var(--warn);color:var(--warn)}
@@ -156,6 +160,16 @@ const html = `<!doctype html><meta charset="utf-8"><title>Kinetic — what exist
             border-bottom:1px solid var(--line)}
  .count{color:var(--dim);font-size:13px}
  #save{border-color:var(--ok);color:var(--ok);font-weight:700}
+ .filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 14px}
+ .search{background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:99px;
+         padding:7px 14px;font:inherit;min-width:200px}
+ .search:focus{outline:none;border-color:var(--ok)}
+ .chip{background:var(--panel);color:var(--dim);border:1px solid var(--line);border-radius:99px;
+       padding:6px 14px;font:12px inherit;cursor:pointer}
+ .chip.on{color:var(--ink);border-color:var(--ok);background:#16231f}
+ .chip .n{color:var(--dim);margin-left:5px}
+ .hidden{display:none !important}
+ h2 .visible-n{color:var(--dim);font-weight:400;text-transform:none;letter-spacing:0}
 </style>
 <h1>Kinetic — what exists so far</h1>
 <p class="lede"><b>${items.length}</b> of ${totalBriefs} strips ingested · ${strength.length} strength · ${yoga.length} yoga · frames animate at Health's own ${REP_MS}ms rep</p>
@@ -167,14 +181,25 @@ const html = `<!doctype html><meta charset="utf-8"><title>Kinetic — what exist
   <span class="count">notes autosave in this browser · “save review” downloads kinetic-review.json</span>
 </div>
 
-<h2>strength (${strength.length})</h2>
-<div class="grid">${(() => { const seen = new Set(); return strength.map((it, i) => {
+<div class="filters">
+  <input class="search" id="q" type="search" placeholder="search by name or slug…">
+  <button class="chip on" data-f="all">All</button>
+  <button class="chip" data-f="unreviewed">Unreviewed</button>
+  <button class="chip" data-f="ok">Kept</button>
+  <button class="chip" data-f="redo">Redo</button>
+  <button class="chip" data-f="stale">Stale</button>
+  <button class="chip" data-f="front">Front view</button>
+  <button class="chip" data-f="side">Side view</button>
+</div>
+
+<h2>strength <span class="visible-n" id="cnt-strength">(${strength.length})</span></h2>
+<div class="grid" id="grid-strength">${(() => { const seen = new Set(); return strength.map((it, i) => {
   const first = !seen.has(it.slug); seen.add(it.slug);
   return card(it, i, first);
 }).join(''); })()}</div>
 
-<h2>yoga (${yoga.length})</h2>
-<div class="grid">${(() => { const seen = new Set(); return yoga.map((it, i) => {
+<h2>yoga <span class="visible-n" id="cnt-yoga">(${yoga.length})</span></h2>
+<div class="grid" id="grid-yoga">${(() => { const seen = new Set(); return yoga.map((it, i) => {
   const first = !seen.has(it.slug); seen.add(it.slug);
   return card(it, strength.length + i, first);
 }).join(''); })()}</div>
@@ -258,6 +283,7 @@ for (const fig of document.querySelectorAll('figure.c')) {
       const cur = review[key] || {};
       cur.verdict = cur.verdict === btn.dataset.v ? undefined : btn.dataset.v;
       review[key] = cur; save(KEY, review); paint(fig, cur); count();
+      if (typeof applyFilters === 'function') applyFilters();
     };
   });
   fig.querySelector('.note').addEventListener('input', (e) => {
@@ -278,6 +304,58 @@ for (const fig of document.querySelectorAll('figure.c')) {
   }
 }
 count();
+
+// ── filters ─────────────────────────────────────────────────────────────
+// Pure client-side: 700 cards is nothing for the DOM, and it means the
+// filter bar works the moment the page opens, before any review is done.
+let activeFilter = 'all';
+const figs = [...document.querySelectorAll('figure.c')];
+
+function currentVerdict(fig) {
+  // live verdict, not the server-baked one — reflects clicks made this session
+  const key = fig.dataset.key;
+  return review[key]?.verdict ?? (fig.dataset.verdict || null);
+}
+
+function applyFilters() {
+  const q = document.getElementById('q').value.trim().toLowerCase();
+  let visible = 0;
+  for (const fig of figs) {
+    const name = fig.querySelector('.nm').textContent.toLowerCase();
+    const slug = fig.dataset.slug.toLowerCase();
+    const matchesQ = !q || name.includes(q) || slug.includes(q);
+
+    const v = currentVerdict(fig);
+    let matchesFilter = true;
+    if (activeFilter === 'unreviewed') matchesFilter = !v;
+    else if (activeFilter === 'ok') matchesFilter = v === 'ok';
+    else if (activeFilter === 'redo') matchesFilter = v === 'redo';
+    else if (activeFilter === 'stale') matchesFilter = fig.dataset.stale === '1';
+    else if (activeFilter === 'front') matchesFilter = fig.dataset.view === 'front';
+    else if (activeFilter === 'side') matchesFilter = fig.dataset.view === 'side';
+
+    const show = matchesQ && matchesFilter;
+    fig.classList.toggle('hidden', !show);
+    if (show) visible++;
+  }
+  for (const grid of ['strength', 'yoga']) {
+    const total = document.querySelectorAll('#grid-' + grid + ' figure.c').length;
+    const shown = document.querySelectorAll('#grid-' + grid + ' figure.c:not(.hidden)').length;
+    document.getElementById('cnt-' + grid).textContent =
+      shown === total ? '(' + total + ')' : '(' + shown + ' of ' + total + ')';
+  }
+}
+
+document.getElementById('q').addEventListener('input', applyFilters);
+document.querySelectorAll('.chip').forEach((chip) => {
+  chip.onclick = () => {
+    document.querySelectorAll('.chip').forEach((c) => c.classList.remove('on'));
+    chip.classList.add('on');
+    activeFilter = chip.dataset.f;
+    applyFilters();
+  };
+});
+applyFilters();
 
 document.getElementById('save').onclick = () => {
   const out = {};
