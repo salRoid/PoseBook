@@ -37,10 +37,20 @@ const FIGURE = {
 };
 if (!prefix || prefix.length < 40) throw new Error('frames/STYLE.md failed to parse — fix the file, do not hardcode a prefix');
 
+// Frame grammar is DISCIPLINE-SPECIFIC: a lift's frames are phases of one
+// repetition; an asana's are the entry and the full expression, which is a
+// different instruction and must not be described as "the effort position".
 const FRAME_MEANING = {
-  1: 'a single frame: the held position',
-  2: 'two frames side by side in one image, equal square cells: frame 1 the start position, frame 2 the effort/end position',
-  3: 'three frames side by side in one image, equal square cells: frame 1 the start position, frame 2 the mid-movement position, frame 3 the effort/end position',
+  strength: {
+    1: 'a single frame: the held position',
+    2: 'two frames side by side in one image, equal square cells: frame 1 the start position, frame 2 the effort/end position',
+    3: 'three frames side by side in one image, equal square cells: frame 1 the start position, frame 2 the mid-movement position, frame 3 the effort/end position',
+  },
+  yoga: {
+    1: 'a single frame: the pose held in its full expression',
+    2: 'two frames side by side in one image, equal square cells: frame 1 the entry into the pose, frame 2 the full expression of the pose',
+    3: 'three frames side by side in one image, equal square cells: the three stages of the movement in order',
+  },
 };
 
 const argv = process.argv.slice(2);
@@ -66,7 +76,7 @@ for (const r of PLAN) {
       file: `frames/inbox/${r.slug}--${sex}.png`,
       refs,
       prompt:
-        `${prefix} ${FRAME_MEANING[r.frames] ?? FRAME_MEANING[3]} ` +
+        `${prefix} ${FRAME_MEANING[r.discipline][r.frames] ?? FRAME_MEANING[r.discipline][3]} ` +
         `Subject: ${FIGURE[sex]}, ${feet}, performing ${r.name}${prop}, ${r.view} view. ${poseGuide}`,
     });
   }

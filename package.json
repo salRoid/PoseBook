@@ -11,7 +11,8 @@
     "ingest": "node scripts/ingest.mjs",
     "plan": "node scripts/plan.mjs",
     "brief": "node scripts/brief.mjs",
-    "ingest-frames": "node scripts/ingest-frames.mjs"
+    "ingest-frames": "node scripts/ingest-frames.mjs",
+    "status": "node scripts/status.mjs"
   },
   "publishConfig": {
     "access": "restricted"

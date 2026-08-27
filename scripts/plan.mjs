@@ -93,8 +93,18 @@ function rowFor(e) {
   const view = yoga
     ? (YOGA_VIEW_OVERRIDES[e.id] ?? (FRONT_FAMILIES.has(e.family) ? 'front' : 'side'))
     : (FRONT_STRENGTH.test(e.name) ? 'front' : 'side');
+  // ── FRAMES, per discipline ──
+  // Strength: 3 (start/mid/effort), 1 for a pure hold — Bryl's convention.
+  // Yoga: "an asana is a hold, so one frame" was too blunt. A pose that is
+  // ENTERED teaches through the entry — you cannot learn crow or headstand
+  // from a picture of the finished shape — so those families get an entry
+  // frame plus the full expression. A pose that is simply occupied (seated,
+  // twists, restorative) stays one frame, because a second would be a
+  // duplicate.
+  const ENTERED = new Set(['arm-balance', 'inversion', 'balance', 'backbend', 'core-strength']);
+  const DYNAMIC = /marjaryasana|bitilasana|cat-cow|surya|namaskar|vinyasa/i;
   const frames = yoga
-    ? (e.id === 'yoga-marjaryasana-bitilasana' || slug === 'cat-cow' ? 2 : 1)
+    ? (DYNAMIC.test(e.id) || DYNAMIC.test(e.name) ? 3 : ENTERED.has(e.family) ? 2 : 1)
     : (HOLD.test(e.name) ? 1 : 3);
   const prop = equipFor(e.name);
   const tier = userLib.has(e.name.toLowerCase()) && !hasArt(e.id) ? 1
