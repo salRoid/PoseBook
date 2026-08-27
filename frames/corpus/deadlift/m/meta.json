@@ -4,5 +4,10 @@
   "sourceFile": "deadlift--m.png",
   "sourceSize": "2172x724",
   "frames": 3,
-  "background": "alpha"
+  "background": "alpha",
+  "centeringShiftsPx": [
+    -54,
+    -30,
+    -17
+  ]
 }

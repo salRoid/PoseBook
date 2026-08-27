@@ -4,5 +4,10 @@
   "sourceFile": "air-bike--m.png",
   "sourceSize": "1536x512",
   "frames": 3,
-  "background": "alpha"
+  "background": "alpha",
+  "centeringShiftsPx": [
+    13,
+    -9,
+    -21
+  ]
 }

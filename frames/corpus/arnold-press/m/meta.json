@@ -4,5 +4,10 @@
   "sourceFile": "arnold-press--m.png",
   "sourceSize": "1536x512",
   "frames": 3,
-  "background": "alpha"
+  "background": "alpha",
+  "centeringShiftsPx": [
+    -19,
+    -10,
+    18
+  ]
 }

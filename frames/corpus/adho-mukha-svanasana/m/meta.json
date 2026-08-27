@@ -4,5 +4,8 @@
   "sourceFile": "adho-mukha-svanasana--m.png",
   "sourceSize": "512x512",
   "frames": 1,
-  "background": "alpha"
+  "background": "alpha",
+  "centeringShiftsPx": [
+    0
+  ]
 }

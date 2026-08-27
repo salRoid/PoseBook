@@ -4,5 +4,8 @@
   "sourceFile": "savasana--m.png",
   "sourceSize": "512x512",
   "frames": 1,
-  "background": "alpha"
+  "background": "alpha",
+  "centeringShiftsPx": [
+    1
+  ]
 }

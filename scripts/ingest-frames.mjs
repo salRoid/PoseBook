@@ -22,10 +22,52 @@ import { join, dirname, basename, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
+const DONE = join(ROOT, 'frames', 'inbox', 'done');
 const INBOX = join(ROOT, 'frames', 'inbox');
 const CORPUS = join(ROOT, 'frames', 'corpus');
 const DRY = process.argv.includes('--dry');
+const REINGEST = process.argv.includes('--reingest');
 const CELL = 512;
+
+// ── frame-to-frame registration ─────────────────────────────────────────
+// A hand-drawn strip is never pixel-perfectly registered across its cells —
+// Codex draws each figure freehand within its own third/half of the canvas,
+// and even a few percent of horizontal drift between cells reads as the
+// whole figure SLIDING when the frames ping-pong ("why are people animating
+// moving left and right"). A plain equal-width column split preserves
+// whatever drift the source has; this re-centers each cell on its OWN ink
+// bounding box before scaling, so every frame's figure sits at the same
+// horizontal position regardless of how it was drawn.
+//
+// Deliberately horizontal-only: vertical motion (a squat's hips dropping, a
+// back extension's torso hinging) is the pose changing and must be
+// preserved — centering that too would erase real range of motion. Sliding
+// left/right is never real range of motion for any of these movements; the
+// figure's base (feet, seat, standing point) does not travel sideways.
+function centerCellHorizontally(raw, imgW, imgH, cellLeft, cellW) {
+  let minX = cellW, maxX = -1;
+  for (let y = 0; y < imgH; y++) {
+    const rowBase = y * imgW * 4;
+    for (let x = 0; x < cellW; x++) {
+      if (raw[rowBase + (cellLeft + x) * 4 + 3] > 16) {
+        if (x < minX) minX = x;
+        if (x > maxX) maxX = x;
+      }
+    }
+  }
+  if (maxX < 0) return { buf: raw.subarray(0, 0), shift: 0, empty: true }; // no ink in this cell — let the caller surface a clear error
+
+  const shift = Math.round(cellW / 2 - (minX + maxX) / 2);
+  const out = Buffer.alloc(cellW * imgH * 4, 0);
+  for (let y = 0; y < imgH; y++) {
+    const srcRow = y * imgW * 4, dstRow = y * cellW * 4;
+    // copy the whole cell row shifted by `shift`, clipped to [0, cellW)
+    const srcStart = Math.max(0, -shift), srcEnd = Math.min(cellW, cellW - shift);
+    if (srcEnd <= srcStart) continue;
+    raw.copy(out, dstRow + (srcStart + shift) * 4, srcRow + (cellLeft + srcStart) * 4, srcRow + (cellLeft + srcEnd) * 4);
+  }
+  return { buf: out, shift, empty: false };
+}
 
 let sharp;
 try { ({ default: sharp } = await import('sharp')); }
@@ -37,8 +79,14 @@ const styleVersion = (readFileSync(join(ROOT, 'frames', 'STYLE.md'), 'utf8')
   .match(/\*\*Style version: (v\d+)\.\*\*/) ?? [, 'v?'])[1];
 
 mkdirSync(INBOX, { recursive: true });
-const files = readdirSync(INBOX)
-  .filter((f) => !f.startsWith('.') && f !== 'done' && statSync(join(INBOX, f)).isFile())
+// --reingest re-runs the CURRENT logic (i.e. the centering fix) over every
+// strip already archived to done/, retroactively fixing already-filed corpus
+// entries with no new generation needed — this was a filing bug, not an art
+// problem, so the existing art is fine and only needs re-slicing.
+const SRC = REINGEST ? DONE : INBOX;
+mkdirSync(SRC, { recursive: true });
+const files = readdirSync(SRC)
+  .filter((f) => !f.startsWith('.') && f !== 'done' && statSync(join(SRC, f)).isFile())
   .sort();
 if (files.length === 0) {
   // An empty inbox means the GENERATION step has not happened — this script
@@ -86,7 +134,7 @@ for (const file of files) {
     const plan = BYSLUG.get(slug);
     const N = plan.frames;
 
-    let img = sharp(join(INBOX, file));
+    let img = sharp(join(SRC, file));
     const meta = await img.metadata();
 
     // cell grammar: N square-ish cells side by side
@@ -121,12 +169,15 @@ for (const file of files) {
       throw new Error('background is opaque and light — white ink on a white background is unusable; regenerate with a transparent (or dark) background');
     }
 
-    // split → downscale → wrap; all frames encoded before anything is written
+    // split → RE-CENTER on each cell's own ink → downscale → wrap
     const cellW = Math.floor(info.width / N);
     const outs = [];
+    const shifts = [];
     for (let i = 0; i < N; i++) {
-      const png = await sharp(strip, { raw: { width: info.width, height: info.height, channels: 4 } })
-        .extract({ left: i * cellW, top: 0, width: cellW, height: info.height })
+      const centered = centerCellHorizontally(strip, info.width, info.height, i * cellW, cellW);
+      if (centered.empty) throw new Error(`frame ${i + 1} of ${N} has no ink at all — a blank cell, regenerate`);
+      shifts.push(centered.shift);
+      const png = await sharp(centered.buf, { raw: { width: cellW, height: info.height, channels: 4 } })
         .resize(CELL, CELL, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
         .png({ compressionLevel: 9 })
         .toBuffer();
@@ -135,10 +186,15 @@ for (const file of files) {
         `<image width="${CELL}" height="${CELL}" href="data:image/png;base64,${png.toString('base64')}"/></svg>\n`,
       );
     }
+    // A large shift means the source cell was badly off-register to begin
+    // with — still fixed, but worth flagging in case it signals a worse
+    // problem (e.g. two figures bleeding across a cell boundary).
+    const maxShift = Math.max(...shifts.map(Math.abs));
+    const shiftWarning = maxShift > cellW * 0.12 ? `  (large registration shift: ${maxShift}px of ${cellW}px cell — worth a look)` : '';
 
     const dir = join(CORPUS, slug, sex);
     const kb = (outs.reduce((a, s2) => a + s2.length, 0) / 1024).toFixed(0);
-    console.log(`  ✓ ${file}  →  ${N} frame(s), ${kb}KB total`);
+    console.log(`  ✓ ${file}  →  ${N} frame(s), ${kb}KB total${shiftWarning}`);
     if (!DRY) {
       mkdirSync(dir, { recursive: true });
       outs.forEach((svg, i) => writeFileSync(join(dir, `frame-${i + 1}.svg`), svg));
@@ -146,9 +202,12 @@ for (const file of files) {
         styleVersion, ingestedAt: new Date().toISOString().slice(0, 10),
         sourceFile: file, sourceSize: `${meta.width}x${meta.height}`,
         frames: N, background: transparent ? 'alpha' : 'keyed-from-dark',
+        centeringShiftsPx: shifts,
       }, null, 2) + '\n');
-      mkdirSync(join(INBOX, 'done'), { recursive: true });
-      renameSync(join(INBOX, file), join(INBOX, 'done', file));
+      if (!REINGEST) {
+        mkdirSync(join(INBOX, 'done'), { recursive: true });
+        renameSync(join(INBOX, file), join(INBOX, 'done', file));
+      } // --reingest reads FROM done/ already — nothing to move
     }
     ok++;
   } catch (err) {

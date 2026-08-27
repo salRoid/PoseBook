@@ -4,5 +4,10 @@
   "sourceFile": "close-grip-dumbbell-press--f.png",
   "sourceSize": "2172x724",
   "frames": 3,
-  "background": "alpha"
+  "background": "alpha",
+  "centeringShiftsPx": [
+    0,
+    -4,
+    -4
+  ]
 }

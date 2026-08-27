@@ -4,5 +4,8 @@
   "sourceFile": "balasana--f.png",
   "sourceSize": "512x512",
   "frames": 1,
-  "background": "alpha"
+  "background": "alpha",
+  "centeringShiftsPx": [
+    0
+  ]
 }

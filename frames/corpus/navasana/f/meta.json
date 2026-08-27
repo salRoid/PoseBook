@@ -4,5 +4,9 @@
   "sourceFile": "navasana--f.png",
   "sourceSize": "1024x512",
   "frames": 2,
-  "background": "alpha"
+  "background": "alpha",
+  "centeringShiftsPx": [
+    -1,
+    4
+  ]
 }
