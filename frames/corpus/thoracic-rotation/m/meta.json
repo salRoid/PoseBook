@@ -1,0 +1,29 @@
+{
+  "styleVersion": "v1",
+  "ingestedAt": "2026-09-04",
+  "sourceFile": "thoracic-rotation--m.png",
+  "sourceSize": "2172x724",
+  "frames": 3,
+  "background": "keyed-from-dark",
+  "cutsPx": [
+    793,
+    1469
+  ],
+  "nominalCutsPx": [
+    724,
+    1448
+  ],
+  "forcedCuts": [],
+  "dividersErased": [],
+  "canvasWidthPx": 772,
+  "reclaimedInkPx": 0,
+  "sharedElements": 0,
+  "centeringShiftsPx": [
+    -9,
+    -737,
+    -1429
+  ],
+  "mirroredFrames": [
+    1
+  ]
+}

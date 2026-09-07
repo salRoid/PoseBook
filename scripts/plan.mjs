@@ -157,20 +157,20 @@ writeFileSync(join(ROOT, 'PLAN.md'), md.join('\n') + '\n');
 // a viewable copy beside the contact sheet
 mkdirSync(join(ROOT, 'dist'), { recursive: true });
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
-writeFileSync(join(ROOT, 'dist', 'plan.html'), `<!doctype html><meta charset="utf-8"><title>Kinetic — pose plan</title>
+writeFileSync(join(ROOT, 'dist', 'plan.html'), `<!doctype html><meta charset="utf-8"><title>PoseBook — pose plan</title>
 <style>body{font:14px/1.5 -apple-system,system-ui;margin:24px auto;max-width:960px;color:#161a19}
 h2{margin:30px 0 8px;font-size:16px} table{border-collapse:collapse;width:100%;font-size:13px}
 td,th{border-bottom:1px solid #e5e7e6;padding:5px 8px;text-align:left} th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#666}
 code{background:#f2f4f3;padding:1px 5px;border-radius:5px} .warn{color:#b8630b} .ok{color:#127a63;font-weight:700}
 .sum{background:#f6f8f7;border:1px solid #e5e7e6;border-radius:10px;padding:14px 18px}</style>
-<h1>Kinetic — the pose plan</h1>
+<h1>PoseBook — the pose plan</h1>
 <div class="sum"><b>${rows.length} movements</b> from Health's catalogue → <b>${totalFrames} SVGs</b> when complete (frames × both bodies). Built: ${builtCount}. Props to add: ${Object.keys(propTodo).map((p) => `<code>${p}</code>`).join(' ')}</div>
 ${[1, 2, 3, 4].map((t) => `<h2>${esc(TIER_LABEL[t])} (${tierCount[t - 1].length})</h2>
 <table><tr><th>movement</th><th>slug</th><th>view</th><th>frames</th><th>prop</th><th>done</th></tr>
 ${tierCount[t - 1].map((r) => `<tr><td>${esc(r.name)}${r.sanskrit ? ` <i>(${esc(r.sanskrit)})</i>` : ''}</td><td><code>${r.slug}</code></td><td>${r.view}</td><td>${r.frames}</td><td>${r.prop ? `${r.prop}${r.propStatus === 'todo' ? ' <span class="warn">⚠ to build</span>' : ''}` : '—'}</td><td>${r.built ? '<span class="ok">✓</span>' : ''}</td></tr>`).join('\n')}</table>`).join('\n')}
 `);
 
-console.log(`kinetic plan: ${rows.length} movements → ${totalFrames} SVGs (× both bodies)`);
+console.log(`posebook plan: ${rows.length} movements → ${totalFrames} SVGs (× both bodies)`);
 for (const t of [1, 2, 3, 4]) console.log(`  tier ${t}: ${tierCount[t - 1].length}  (${TIER_LABEL[t].split('—')[1].trim()})`);
 console.log(`  props to build: ${Object.entries(propTodo).map(([p, c]) => `${p}(${c})`).join(' ')}`);
 console.log('  → poses/PLAN.json · PLAN.md · dist/plan.html');

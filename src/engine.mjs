@@ -1,4 +1,4 @@
-// The Kinetic engine — a figure is a RIG, a pose is DATA, a movement is frames.
+// The PoseBook engine — a figure is a RIG, a pose is DATA, a movement is frames.
 //
 // ── WHY A RIG AND NOT GENERATED PICTURES ──
 // Health's own record settles this: `ATTRIBUTION.md` lists 15 generated/matched

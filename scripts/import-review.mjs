@@ -3,7 +3,7 @@
 // This is the "automatic" loop: one command turns your notes into Codex's
 // next prompt.
 //
-//   npm run import-review                 ~/Downloads/kinetic-review.json
+//   npm run import-review                 ~/Downloads/posebook-review.json
 //   npm run import-review -- <path>
 //   npm run import-review -- --apply      ALSO delete every "redo" from the
 //                                         corpus, so it re-enters the queue
@@ -29,16 +29,21 @@ import { join, dirname } from 'node:path';
 import { homedir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { openDb, applyReviewPayload } from './db.mjs';
+import { backupFrameSet } from './frame-backup.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const CORPUS = join(ROOT, 'frames', 'corpus');
 
 const argv = process.argv.slice(2);
 const APPLY = argv.includes('--apply');
-const src = argv.find((a) => !a.startsWith('--')) ?? join(homedir(), 'Downloads', 'kinetic-review.json');
+// Renamed Kinetic -> PoseBook on 2026-09-06: a review downloaded before the
+// rename is still sitting in ~/Downloads under the old name, so fall back to
+// it rather than reporting "no review file" at a reviewer who just saved one.
+const DEFAULTS = ['posebook-review.json', 'kinetic-review.json'].map((f) => join(homedir(), 'Downloads', f));
+const src = argv.find((a) => !a.startsWith('--')) ?? DEFAULTS.find(existsSync) ?? DEFAULTS[0];
 
 if (!existsSync(src)) {
-  console.error(`kinetic: no review file at ${src}\n  Open dist/gallery.html, add notes, click "save review →", then re-run.`);
+  console.error(`posebook: no review file at ${src}\n  Open dist/gallery.html, add notes, click "save review →", then re-run.`);
   process.exit(1);
 }
 
@@ -46,7 +51,7 @@ const incoming = JSON.parse(readFileSync(src, 'utf8'));
 const db = openDb();
 const { reviewRows, overrideRows } = applyReviewPayload(db, { ...incoming, source: src });
 
-console.log(`\n── kinetic · import-review ── from ${src}\n`);
+console.log(`\n── posebook · import-review ── from ${src}\n`);
 console.log(`  ${reviewRows.length} review row(s) logged · ${overrideRows.length} movement override(s) applied\n`);
 
 const redo = db.prepare(`
@@ -61,6 +66,8 @@ if (redo.length) {
   for (const r of redo) console.log(`  ${r.slug}--${r.sex}  ${r.note ?? ''}`);
   console.log('');
   if (APPLY) {
+    const backup = backupFrameSet(ROOT, redo, 'review-redo');
+    console.log(`  backup: ${backup.dir}`);
     let removed = 0;
     for (const r of redo) {
       const dir = join(CORPUS, r.slug, r.sex);

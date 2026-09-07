@@ -1,0 +1,26 @@
+{
+  "styleVersion": "v1",
+  "ingestedAt": "2026-09-04",
+  "sourceFile": "urdhva-dhanurasana--m.png",
+  "sourceSize": "1774x887",
+  "frames": 2,
+  "background": "keyed-from-dark",
+  "cutsPx": [
+    852
+  ],
+  "nominalCutsPx": [
+    887
+  ],
+  "forcedCuts": [],
+  "dividersErased": [],
+  "canvasWidthPx": 887,
+  "reclaimedInkPx": 0,
+  "sharedElements": 0,
+  "centeringShiftsPx": [
+    -25,
+    -832
+  ],
+  "mirroredFrames": [
+    1
+  ]
+}

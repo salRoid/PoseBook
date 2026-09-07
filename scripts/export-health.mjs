@@ -37,7 +37,7 @@ const FORCE = has('--force');
 const DRY = has('--dry');
 
 if (!existsSync(SRC)) {
-  console.error('kinetic: dist/svg missing — run `npm run build` first.');
+  console.error('posebook: dist/svg missing — run `npm run build` first.');
   process.exit(1);
 }
 
@@ -60,7 +60,7 @@ for (const slug of readdirSync(SRC).sort()) {
   copied++;
 }
 
-console.log(`\nkinetic: ${copied} slug(s) exported, ${skipped} skipped${DRY ? ' (dry run — nothing written)' : ''}`);
+console.log(`\nposebook: ${copied} slug(s) exported, ${skipped} skipped${DRY ? ' (dry run — nothing written)' : ''}`);
 if (copied > 0 && !DRY) {
   console.log('Own art — no attribution obligation. Update Health/ATTRIBUTION.md if a\n' +
               'replaced slug used to credit everkinetic/Bryl Lim.');

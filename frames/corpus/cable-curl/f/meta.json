@@ -1,0 +1,37 @@
+{
+  "styleVersion": "v1",
+  "ingestedAt": "2026-09-04",
+  "sourceFile": "cable-curl--f.png",
+  "sourceSize": "1536x512",
+  "frames": 3,
+  "background": "alpha",
+  "cutsPx": [
+    559,
+    1039
+  ],
+  "nominalCutsPx": [
+    512,
+    1024
+  ],
+  "forcedCuts": [],
+  "dividersErased": [
+    "406-409",
+    "412-415",
+    "428-434",
+    "449-451",
+    "464-467",
+    "887-889",
+    "892-895",
+    "908-914",
+    "930-931",
+    "944-947"
+  ],
+  "canvasWidthPx": 512,
+  "reclaimedInkPx": 0,
+  "sharedElements": 0,
+  "centeringShiftsPx": [
+    -61,
+    -542,
+    -1026
+  ]
+}

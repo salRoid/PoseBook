@@ -1,0 +1,26 @@
+{
+  "styleVersion": "v1",
+  "ingestedAt": "2026-09-04",
+  "sourceFile": "karnapidasana--m.png",
+  "sourceSize": "1774x887",
+  "frames": 2,
+  "background": "alpha",
+  "cutsPx": [
+    893
+  ],
+  "nominalCutsPx": [
+    887
+  ],
+  "forcedCuts": [],
+  "dividersErased": [],
+  "canvasWidthPx": 887,
+  "reclaimedInkPx": 0,
+  "sharedElements": 0,
+  "centeringShiftsPx": [
+    -15,
+    -876
+  ],
+  "mirroredFrames": [
+    1
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "styleVersion": "v1",
+  "ingestedAt": "2026-09-04",
+  "sourceFile": "sirsasana--f.png",
+  "sourceSize": "1774x887",
+  "frames": 2,
+  "background": "keyed-from-dark",
+  "cutsPx": [
+    897
+  ],
+  "nominalCutsPx": [
+    887
+  ],
+  "forcedCuts": [],
+  "dividersErased": [],
+  "canvasWidthPx": 887,
+  "reclaimedInkPx": 0,
+  "sharedElements": 0,
+  "centeringShiftsPx": [
+    -72,
+    -750
+  ],
+  "mirroredFrames": [
+    1
+  ]
+}

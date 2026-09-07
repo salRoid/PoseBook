@@ -1,0 +1,28 @@
+{
+  "styleVersion": "v1",
+  "ingestedAt": "2026-09-04",
+  "sourceFile": "pigeon-stretch--f.png",
+  "sourceSize": "2172x724",
+  "frames": 3,
+  "background": "keyed-from-dark",
+  "cutsPx": [
+    664,
+    1569
+  ],
+  "nominalCutsPx": [
+    724,
+    1448
+  ],
+  "forcedCuts": [
+    2
+  ],
+  "dividersErased": [],
+  "canvasWidthPx": 891,
+  "reclaimedInkPx": 29196,
+  "sharedElements": 0,
+  "centeringShiftsPx": [
+    112,
+    -667,
+    -1316
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "styleVersion": "v1",
+  "ingestedAt": "2026-09-04",
+  "sourceFile": "kapotasana--m.png",
+  "sourceSize": "1774x887",
+  "frames": 2,
+  "background": "keyed-from-dark",
+  "cutsPx": [
+    898
+  ],
+  "nominalCutsPx": [
+    887
+  ],
+  "forcedCuts": [],
+  "dividersErased": [],
+  "canvasWidthPx": 887,
+  "reclaimedInkPx": 0,
+  "sharedElements": 0,
+  "centeringShiftsPx": [
+    -43,
+    -862
+  ]
+}

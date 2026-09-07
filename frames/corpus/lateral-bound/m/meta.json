@@ -1,0 +1,26 @@
+{
+  "styleVersion": "v1",
+  "ingestedAt": "2026-09-04",
+  "sourceFile": "lateral-bound--m.png",
+  "sourceSize": "2172x724",
+  "frames": 3,
+  "background": "keyed-from-dark",
+  "cutsPx": [
+    717,
+    1534
+  ],
+  "nominalCutsPx": [
+    724,
+    1448
+  ],
+  "forcedCuts": [],
+  "dividersErased": [],
+  "canvasWidthPx": 724,
+  "reclaimedInkPx": 0,
+  "sharedElements": 0,
+  "centeringShiftsPx": [
+    42,
+    -796,
+    -1502
+  ]
+}

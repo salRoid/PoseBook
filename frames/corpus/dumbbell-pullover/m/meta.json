@@ -1,0 +1,27 @@
+{
+  "styleVersion": "v1",
+  "ingestedAt": "2026-09-06",
+  "sourceFile": "dumbbell-pullover--m.png",
+  "sourceSize": "2172x724",
+  "frames": 3,
+  "background": "keyed-from-dark",
+  "cutsPx": [
+    683,
+    1426
+  ],
+  "nominalCutsPx": [
+    724,
+    1448
+  ],
+  "forcedCuts": [],
+  "dividersErased": [],
+  "canvasWidthPx": 743,
+  "reclaimedInkPx": 0,
+  "sharedElements": 0,
+  "centeringShiftsPx": [
+    9,
+    -684,
+    -1429
+  ],
+  "mirroredFrames": []
+}

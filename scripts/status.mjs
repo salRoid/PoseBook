@@ -35,7 +35,7 @@ for (const b of briefs) {
 
 const byTier = (arr) => [1, 2, 3, 4].map((t) => arr.filter((b) => b.tier === t).length).join(' / ');
 
-console.log(`\n── kinetic · frames status ── style ${styleVersion} ──\n`);
+console.log(`\n── posebook · frames status ── style ${styleVersion} ──\n`);
 console.log(`  done     ${String(done.length).padStart(4)}   (tiers 1/2/3/4: ${byTier(done)})`);
 console.log(`  STALE    ${String(stale.length).padStart(4)}   regenerate these — see below`);
 console.log(`  to do    ${String(todo.length).padStart(4)}   (tiers 1/2/3/4: ${byTier(todo)})`);

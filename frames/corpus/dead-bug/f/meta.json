@@ -1,0 +1,28 @@
+{
+  "styleVersion": "v1",
+  "ingestedAt": "2026-09-04",
+  "sourceFile": "dead-bug--f.png",
+  "sourceSize": "2172x724",
+  "frames": 3,
+  "background": "keyed-from-dark",
+  "cutsPx": [
+    525,
+    1412
+  ],
+  "nominalCutsPx": [
+    724,
+    1448
+  ],
+  "forcedCuts": [
+    1
+  ],
+  "dividersErased": [],
+  "canvasWidthPx": 886,
+  "reclaimedInkPx": 25753,
+  "sharedElements": 0,
+  "centeringShiftsPx": [
+    111,
+    -514,
+    -1340
+  ]
+}

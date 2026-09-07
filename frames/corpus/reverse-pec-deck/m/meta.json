@@ -1,0 +1,27 @@
+{
+  "styleVersion": "v1",
+  "ingestedAt": "2026-09-06",
+  "sourceFile": "reverse-pec-deck--m.png",
+  "sourceSize": "2172x724",
+  "frames": 3,
+  "background": "keyed-from-dark",
+  "cutsPx": [
+    655,
+    1388
+  ],
+  "nominalCutsPx": [
+    724,
+    1448
+  ],
+  "forcedCuts": [],
+  "dividersErased": [],
+  "canvasWidthPx": 724,
+  "reclaimedInkPx": 0,
+  "sharedElements": 0,
+  "centeringShiftsPx": [
+    55,
+    -684,
+    -1402
+  ],
+  "mirroredFrames": []
+}

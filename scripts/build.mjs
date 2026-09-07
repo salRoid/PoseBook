@@ -61,7 +61,7 @@ const demoEx = ALL.find((e) => e.slug === 'squat');
 const toneCells = demoEx ? TONES.map((t) =>
   `<div class="pcard"><svg viewBox="0 0 512 512">${renderExercise(demoEx, 'm', { palette: t })[1].replace(/^<svg[^>]*>/, '').replace('</svg>', '')}</svg><div class="pname">${t.name} · ${t.skin}</div></div>`).join('') : '';
 
-const sheet = `<!doctype html><meta charset="utf-8"><title>Kinetic — contact sheet</title>
+const sheet = `<!doctype html><meta charset="utf-8"><title>PoseBook — contact sheet</title>
 <style>
   body{font:14px/1.45 -apple-system,system-ui;margin:24px;background:#f4f5f4;color:#161a19}
   h1{font-size:20px} h2{font-size:15px;margin:28px 0 10px;text-transform:uppercase;letter-spacing:.08em;color:#666}
@@ -77,7 +77,7 @@ const sheet = `<!doctype html><meta charset="utf-8"><title>Kinetic — contact s
   .pname{font-size:10px;color:#666;margin-top:4px;word-break:break-all}
   .legend{font-size:12px;color:#666;margin:6px 0 10px}
 </style>
-<h1>Kinetic — every exercise, both figures, every frame</h1>
+<h1>PoseBook — every exercise, both figures, every frame</h1>
 <h2>the part library (${Object.keys(manifest).length} ingested)</h2>
 <div class="legend"><span style="color:#e0442c">●</span> anchor A (proximal joint) · <span style="color:#127a63">●</span> anchor B (distal joint) — a dot off the joint = a part that will assemble dislocated</div>
 <div class="pgrid">${partCards}</div>
@@ -98,4 +98,4 @@ ${cells.filter((c) => c.category === cat).map((c) => `
 `;
 writeFileSync(join(DIST, 'sheet.html'), sheet);
 
-console.log(`kinetic: ${files} frames written, sheet at dist/sheet.html`);
+console.log(`posebook: ${files} frames written, sheet at dist/sheet.html`);

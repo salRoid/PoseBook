@@ -1,0 +1,27 @@
+{
+  "styleVersion": "v1",
+  "ingestedAt": "2026-09-06",
+  "sourceFile": "worlds-greatest-stretch--m.png",
+  "sourceSize": "2172x724",
+  "frames": 3,
+  "background": "keyed-from-dark",
+  "cutsPx": [
+    728,
+    1391
+  ],
+  "nominalCutsPx": [
+    724,
+    1448
+  ],
+  "forcedCuts": [],
+  "dividersErased": [],
+  "canvasWidthPx": 724,
+  "reclaimedInkPx": 0,
+  "sharedElements": 0,
+  "centeringShiftsPx": [
+    -22,
+    -698,
+    -1337
+  ],
+  "mirroredFrames": []
+}

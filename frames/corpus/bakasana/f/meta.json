@@ -1,0 +1,23 @@
+{
+  "styleVersion": "v1",
+  "ingestedAt": "2026-09-04",
+  "sourceFile": "bakasana--f.png",
+  "sourceSize": "1024x512",
+  "frames": 2,
+  "background": "alpha",
+  "cutsPx": [
+    495
+  ],
+  "nominalCutsPx": [
+    512
+  ],
+  "forcedCuts": [],
+  "dividersErased": [],
+  "canvasWidthPx": 512,
+  "reclaimedInkPx": 0,
+  "sharedElements": 0,
+  "centeringShiftsPx": [
+    11,
+    -503
+  ]
+}

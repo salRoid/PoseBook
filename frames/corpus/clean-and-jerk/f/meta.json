@@ -1,0 +1,26 @@
+{
+  "styleVersion": "v1",
+  "ingestedAt": "2026-09-04",
+  "sourceFile": "clean-and-jerk--f.png",
+  "sourceSize": "1536x512",
+  "frames": 3,
+  "background": "alpha",
+  "cutsPx": [
+    512,
+    1024
+  ],
+  "nominalCutsPx": [
+    512,
+    1024
+  ],
+  "forcedCuts": [],
+  "dividersErased": [],
+  "canvasWidthPx": 512,
+  "reclaimedInkPx": 0,
+  "sharedElements": 0,
+  "centeringShiftsPx": [
+    -9,
+    -511,
+    -1018
+  ]
+}

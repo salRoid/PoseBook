@@ -1,0 +1,35 @@
+{
+  "styleVersion": "v1",
+  "ingestedAt": "2026-09-04",
+  "sourceFile": "cable-fly--m.png",
+  "sourceSize": "1536x512",
+  "frames": 3,
+  "background": "alpha",
+  "cutsPx": [
+    530,
+    1039
+  ],
+  "nominalCutsPx": [
+    512,
+    1024
+  ],
+  "forcedCuts": [],
+  "dividersErased": [
+    "495-498",
+    "505-509",
+    "551-554",
+    "562-566",
+    "998-1001",
+    "1008-1011",
+    "1066-1069",
+    "1077-1080"
+  ],
+  "canvasWidthPx": 512,
+  "reclaimedInkPx": 0,
+  "sharedElements": 0,
+  "centeringShiftsPx": [
+    -2,
+    -522,
+    -1041
+  ]
+}

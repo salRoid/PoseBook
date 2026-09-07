@@ -1,0 +1,27 @@
+{
+  "styleVersion": "v1",
+  "ingestedAt": "2026-09-05",
+  "sourceFile": "leg-swing--f.png",
+  "sourceSize": "2172x724",
+  "frames": 3,
+  "background": "keyed-from-dark",
+  "cutsPx": [
+    823,
+    1376
+  ],
+  "nominalCutsPx": [
+    724,
+    1448
+  ],
+  "forcedCuts": [],
+  "dividersErased": [],
+  "canvasWidthPx": 724,
+  "reclaimedInkPx": 0,
+  "sharedElements": 0,
+  "centeringShiftsPx": [
+    -18,
+    -728,
+    -1429
+  ],
+  "mirroredFrames": []
+}

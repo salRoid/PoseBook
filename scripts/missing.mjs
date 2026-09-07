@@ -14,7 +14,7 @@ const manifest = existsSync(MANIFEST) ? JSON.parse(readFileSync(MANIFEST, 'utf8'
 const promptsOnly = process.argv.includes('--prompts');
 let have = 0, missing = 0;
 
-if (!promptsOnly) console.log('\n── kinetic · parts still to generate ──\n');
+if (!promptsOnly) console.log('\n── posebook · parts still to generate ──\n');
 for (const sex of SEXES) {
   for (const part of PARTS) {
     if (part.legacy) continue;

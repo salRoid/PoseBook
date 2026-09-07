@@ -1,0 +1,26 @@
+{
+  "styleVersion": "v1",
+  "ingestedAt": "2026-09-04",
+  "sourceFile": "barbell-bench-press--f.png",
+  "sourceSize": "1536x512",
+  "frames": 3,
+  "background": "alpha",
+  "cutsPx": [
+    511,
+    1031
+  ],
+  "nominalCutsPx": [
+    512,
+    1024
+  ],
+  "forcedCuts": [],
+  "dividersErased": [],
+  "canvasWidthPx": 512,
+  "reclaimedInkPx": 0,
+  "sharedElements": 0,
+  "centeringShiftsPx": [
+    2,
+    -516,
+    -1026
+  ]
+}

@@ -1,11 +1,19 @@
 {
   "styleVersion": "v1",
-  "ingestedAt": "2026-08-27",
+  "ingestedAt": "2026-09-06",
   "sourceFile": "anantasana--m.png",
-  "sourceSize": "512x512",
+  "sourceSize": "1254x1254",
   "frames": 1,
-  "background": "alpha",
+  "background": "keyed-from-dark",
+  "cutsPx": [],
+  "nominalCutsPx": [],
+  "forcedCuts": [],
+  "dividersErased": [],
+  "canvasWidthPx": 1254,
+  "reclaimedInkPx": 0,
+  "sharedElements": 0,
   "centeringShiftsPx": [
-    1
-  ]
+    -1
+  ],
+  "mirroredFrames": []
 }

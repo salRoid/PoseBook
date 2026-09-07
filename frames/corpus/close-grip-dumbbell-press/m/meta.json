@@ -1,13 +1,27 @@
 {
   "styleVersion": "v1",
-  "ingestedAt": "2026-08-27",
+  "ingestedAt": "2026-09-06",
   "sourceFile": "close-grip-dumbbell-press--m.png",
   "sourceSize": "2172x724",
   "frames": 3,
-  "background": "alpha",
+  "background": "keyed-from-dark",
+  "cutsPx": [
+    754,
+    1487
+  ],
+  "nominalCutsPx": [
+    724,
+    1448
+  ],
+  "forcedCuts": [],
+  "dividersErased": [],
+  "canvasWidthPx": 724,
+  "reclaimedInkPx": 0,
+  "sharedElements": 0,
   "centeringShiftsPx": [
-    -8,
-    -5,
-    -4
-  ]
+    -19,
+    -759,
+    -1475
+  ],
+  "mirroredFrames": []
 }

@@ -1,0 +1,31 @@
+{
+  "styleVersion": "v1",
+  "ingestedAt": "2026-09-04",
+  "sourceFile": "cable-curl--m.png",
+  "sourceSize": "1536x512",
+  "frames": 3,
+  "background": "alpha",
+  "cutsPx": [
+    581,
+    1076
+  ],
+  "nominalCutsPx": [
+    512,
+    1024
+  ],
+  "forcedCuts": [],
+  "dividersErased": [
+    "464-464",
+    "489-493",
+    "974-974",
+    "976-979"
+  ],
+  "canvasWidthPx": 512,
+  "reclaimedInkPx": 0,
+  "sharedElements": 0,
+  "centeringShiftsPx": [
+    -76,
+    -568,
+    -1069
+  ]
+}

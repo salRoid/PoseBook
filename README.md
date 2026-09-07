@@ -1,4 +1,4 @@
-# Kinetic
+# PoseBook
 
 **Our own exercise and yoga figures.** A parameterised body, poses as
 joint-angle data, multi-frame SVG out — for both disciplines, both sexes,
@@ -71,6 +71,19 @@ command when it lands.
 standalone and through Health's CSS mask (alpha is what the mask reads). All
 frames of one exercise share one transform and one ground line, so the figure
 never resizes or floats mid-movement.
+
+**`currentColor` is not optional, and it applies to BOTH pipelines.** The rig
+fills its paths with `currentColor` directly. The frames corpus embeds a PNG,
+so it cannot — instead the PNG is used as a `<mask>` and what renders is a
+`currentColor` rect showing through it. Same result: the ink is whatever CSS
+`color` the host sets, so one corpus reads on a white screen and a black one
+and light/dark mode is a colour change, not a second set of files.
+
+Until 2026-08-29 the frames corpus painted the PNG directly, baking WHITE
+pixels — invisible on a light background, and unthemeable. The gallery hid
+this because it was hard-coded dark. If you ever see a frame SVG without
+`currentColor` in it, the ingest wrapper has regressed; `npm run gallery`'s
+light/dark toggle is the check.
 
 ## Catalogue (v0)
 

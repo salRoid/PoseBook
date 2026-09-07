@@ -1,0 +1,23 @@
+{
+  "styleVersion": "v1",
+  "ingestedAt": "2026-09-04",
+  "sourceFile": "virabhadrasana-iii--m.png",
+  "sourceSize": "1774x887",
+  "frames": 2,
+  "background": "keyed-from-dark",
+  "cutsPx": [
+    539
+  ],
+  "nominalCutsPx": [
+    887
+  ],
+  "forcedCuts": [],
+  "dividersErased": [],
+  "canvasWidthPx": 1130,
+  "reclaimedInkPx": 0,
+  "sharedElements": 0,
+  "centeringShiftsPx": [
+    219,
+    -595
+  ]
+}

@@ -1,13 +1,26 @@
 {
   "styleVersion": "v1",
-  "ingestedAt": "2026-08-27",
+  "ingestedAt": "2026-09-04",
   "sourceFile": "farmers-carry--f.png",
   "sourceSize": "1536x512",
   "frames": 3,
   "background": "alpha",
+  "cutsPx": [
+    465,
+    978
+  ],
+  "nominalCutsPx": [
+    512,
+    1024
+  ],
+  "forcedCuts": [],
+  "dividersErased": [],
+  "canvasWidthPx": 512,
+  "reclaimedInkPx": 0,
+  "sharedElements": 0,
   "centeringShiftsPx": [
     -17,
-    32,
-    56
+    -480,
+    -968
   ]
 }

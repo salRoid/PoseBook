@@ -1,0 +1,29 @@
+{
+  "styleVersion": "v1",
+  "ingestedAt": "2026-09-05",
+  "sourceFile": "nordic-curl--m.png",
+  "sourceSize": "2172x724",
+  "frames": 3,
+  "background": "keyed-from-dark",
+  "cutsPx": [
+    602,
+    1456
+  ],
+  "nominalCutsPx": [
+    724,
+    1448
+  ],
+  "forcedCuts": [
+    2
+  ],
+  "dividersErased": [],
+  "canvasWidthPx": 782,
+  "reclaimedInkPx": 35736,
+  "sharedElements": 0,
+  "centeringShiftsPx": [
+    126,
+    -683,
+    -1370
+  ],
+  "mirroredFrames": []
+}

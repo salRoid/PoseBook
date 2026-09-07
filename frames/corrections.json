@@ -1,0 +1,68 @@
+{
+  "_readme": [
+    "Per-strip FILING corrections, applied by `npm run ingest-frames` after the",
+    "strip is cut. This is not a place to touch art: it is for defects that are",
+    "mechanical to state and mechanical to undo, so that the correction survives",
+    "a --reingest instead of being a hand-edit of an SVG that the next run wipes.",
+    "",
+    "  mirrorFrames  1-based frame numbers to flip horizontally, for when one",
+    "                frame of a strip was drawn facing the opposite way to its",
+    "                siblings. Only valid because these are side-on figures of",
+    "                symmetric movements — a flip changes which limb is near,",
+    "                nothing else. If a movement is genuinely one-sided, the",
+    "                strip is REGENERATED, not flipped.",
+    "",
+    "Every entry needs a `why` with the date. An entry whose strip gets",
+    "regenerated should be deleted in the same change."
+  ],
+
+  "urdhva-dhanurasana--m": {
+    "mirrorFrames": [1],
+    "why": "2026-09-04 (Sal, Wheel Pose): frame 1 faces left while frame 2 — and the whole of urdhva-dhanurasana--f — faces right."
+  },
+
+  "vyaghrasana--f": {
+    "mirrorFrames": [1],
+    "why": "2026-09-04 (Sal, Tiger Pose): frame 1 faces left while frame 2 — and both frames of vyaghrasana--m — face right."
+  },
+
+  "karnapidasana--m": {
+    "mirrorFrames": [1],
+    "why": "2026-09-04 (Sal, Ear-Pressing Pose): frame 1 lies head-left while frame 2 lies head-right; verified by flipping frame 1 and matching it against frame 2."
+  },
+
+  "karnapidasana--f": {
+    "mirrorFrames": [1],
+    "why": "2026-09-04 (Sal, Ear-Pressing Pose): same defect as karnapidasana--m — frame 1 is the mirrored one."
+  },
+
+  "sirsasana--f": {
+    "mirrorFrames": [1],
+    "why": "2026-09-04 (Sal, Headstand): frame 1 tucks to the left while frame 2 — and both frames of sirsasana--m — put the head-and-forearms base on the left with the body to the right."
+  },
+
+  "thoracic-rotation--m": {
+    "mirrorFrames": [1],
+    "why": "2026-09-04: frame 1 faces left, frames 2-3 face right (found by the corpus-wide facing sweep, not reported by Sal)."
+  },
+
+  "ardha-chandrasana--f": {
+    "mirrorFrames": [2],
+    "why": "2026-09-04: frame 2 faces left while frame 1 and both frames of ardha-chandrasana--m face right."
+  },
+
+  "dragon-flag--m": {
+    "mirrorFrames": [2],
+    "why": "2026-09-04 (Sal): frame 2 was drawn facing the opposite way to frames 1 and 3 — the figure flips end-for-end mid-movement."
+  },
+
+  "decline-dumbbell-press--f": {
+    "mirrorFrames": [1],
+    "why": "2026-09-04 (Sal): frame 1 (head right, bench declining left) is mirrored relative to frames 2-3."
+  },
+
+  "inverted-row--m": {
+    "mirrorFrames": [3],
+    "why": "2026-09-04 (Sal): frame 3 was drawn facing left while frames 1-2 face right, so the figure appeared to spin round mid-movement."
+  }
+}

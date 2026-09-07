@@ -1,12 +1,23 @@
 {
   "styleVersion": "v1",
-  "ingestedAt": "2026-08-27",
+  "ingestedAt": "2026-09-04",
   "sourceFile": "setu-bandha-sarvangasana--f.png",
   "sourceSize": "1024x512",
   "frames": 2,
   "background": "alpha",
+  "cutsPx": [
+    510
+  ],
+  "nominalCutsPx": [
+    512
+  ],
+  "forcedCuts": [],
+  "dividersErased": [],
+  "canvasWidthPx": 518,
+  "reclaimedInkPx": 0,
+  "sharedElements": 0,
   "centeringShiftsPx": [
-    2,
-    1
+    5,
+    -508
   ]
 }

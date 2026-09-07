@@ -1,11 +1,11 @@
-# Kinetic
+# PoseBook
 
-**Working in Kinetic? Read its decision log — `Kinetic/DECISIONS.md` (imported
+**Working in PoseBook? Read its decision log — `PoseBook/DECISIONS.md` (imported
 below).** It is why this app is the way it is: what was decided, why, what was
 rejected, and what must be revisited. Record a new decision there **in the same
 change as the code**, not later.
 
-**Kinetic/DECISIONS.md is for Kinetic ONLY.** Anything that binds every app — the
+**PoseBook/DECISIONS.md is for PoseBook ONLY.** Anything that binds every app — the
 Core design system and page shape, the integration contract, analytics, deploy,
 security — lives in **`../DECISIONS.md` (i.e. `Lumen/DECISIONS.md`)**, which is loaded for every
 session. Never restate a suite-wide decision here; reference it. If the two

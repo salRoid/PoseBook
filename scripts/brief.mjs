@@ -46,21 +46,55 @@ const FIGURE = {
   m: (styleMd.match(/- male: (.+)/) ?? [, 'male figure'])[1].trim(),
   f: (styleMd.match(/- female: (.+)/) ?? [, 'female figure'])[1].trim(),
 };
+const PATTERN_REFS = {
+  m: ['frames/inbox/done/close-grip-dumbbell-press--m.png'],
+  f: [
+    'frames/inbox/done/close-grip-dumbbell-press--m.png',
+    'frames/inbox/done/dumbbell-clean-and-press--f.png',
+  ],
+};
 if (!prefix || prefix.length < 40) throw new Error('frames/STYLE.md failed to parse — fix the file, do not hardcode a prefix');
+
+// ── hard exclusions, TRANSMITTED ────────────────────────────────────────────
+// These used to be parsed by nothing. STYLE.md forbade borders, backgrounds
+// and filled bodies, but only the fixed prefix ever reached the model, so the
+// exclusions were a promise to ourselves — and the corpus duly came back with
+// border boxes ("Why is there a white border box"), drawn checkerboards
+// ("Pixelated background") and solid white bodies ("The body has gone too
+// white"), which together account for most rejections in frames/review.db.
+// Appending them makes the contract enforceable at the point it is used.
+//
+// The style VERSION deliberately stays v1: the accepted anchor look does not
+// change, and bumping it would mark all 131 ingested strips stale for a
+// clarification rather than a restyle. What changes is that rules already in
+// contract v1 are now actually stated to the generator.
+// Bullets WRAP across lines in the markdown, so the block is split on the
+// list markers, not on newlines — filtering for lines that start with "- "
+// silently truncates every bullet at its first line, which turns a rule into
+// a sentence fragment ("The figure is drawn in OUTLINE: contour lines plus").
+const exclusions = (styleMd.split('## Hard exclusions')[1] ?? '').split('\n## ')[0]
+  .split(/\n- /).slice(1)
+  .map((l) => l.replace(/\*\*/g, '')
+    .replace(/\s*\(Review rejections?:[\s\S]*?\)/g, '')   // review provenance is for humans
+    .replace(/\s*\(Rejections?:[\s\S]*?\)/g, '')
+    .replace(/\s+/g, ' ').trim())
+  .filter(Boolean);
+if (exclusions.length < 5) throw new Error('frames/STYLE.md: Hard exclusions failed to parse — the prompt would silently lose them');
+const NEVER = `Hard exclusions, all mandatory: ${exclusions.join('; ')}.`;
 
 // Frame grammar is DISCIPLINE-SPECIFIC: a lift's frames are phases of one
 // repetition; an asana's are the entry and the full expression, which is a
 // different instruction and must not be described as "the effort position".
 const FRAME_MEANING = {
   strength: {
-    1: 'a single frame: the held position',
-    2: 'two frames side by side in one image, equal square cells: frame 1 the start position, frame 2 the effort/end position',
-    3: 'three frames side by side in one image, equal square cells: frame 1 the start position, frame 2 the mid-movement position, frame 3 the effort/end position',
+    1: 'one pose centered on a square canvas: the held position',
+    2: 'two sequential poses side by side on one continuous 2:1 canvas: the left pose is the start position and the right pose is the effort/end position',
+    3: 'three sequential poses side by side on one continuous 3:1 canvas: the left pose is the start position, the middle pose is the mid-movement position, and the right pose is the effort/end position',
   },
   yoga: {
-    1: 'a single frame: the pose held in its full expression',
-    2: 'two frames side by side in one image, equal square cells: frame 1 the entry into the pose, frame 2 the full expression of the pose',
-    3: 'three frames side by side in one image, equal square cells: the three stages of the movement in order',
+    1: 'one pose centered on a square canvas: the pose held in its full expression',
+    2: 'two sequential poses side by side on one continuous 2:1 canvas: the left pose is the entry into the pose and the right pose is the full expression of the pose',
+    3: 'three sequential poses side by side on one continuous 3:1 canvas: the three stages of the movement appear in order from left to right',
   },
 };
 
@@ -96,9 +130,25 @@ for (const r of PLAN) {
     let correction = '';
     if (rv?.verdict === 'redo') {
       correctionCount++;
-      correction = rv.note && rv.note.trim()
-        ? ` CORRECTION — the previous attempt was rejected: "${rv.note.trim()}". Do not repeat that.`
-        : ' CORRECTION — the previous attempt was rejected on review; match the style contract exactly.';
+      const note = rv.note?.trim() ?? '';
+      const lower = note.toLowerCase();
+      if (lower.includes('completely white') || lower.includes('too white') || lower.includes('extra white')) {
+        correction = ' CORRECTION — use only narrow contour and detail strokes, keeping uniform black open regions between every stroke.';
+      } else if (lower.includes('pixelated background') || (lower.includes('pix') && lower.includes('background'))) {
+        correction = ' CORRECTION — keep the entire background uniformly solid black.';
+      } else if (lower.includes('cut off') || lower.includes('cropped')) {
+        correction = ' CORRECTION — keep the complete figure and every implement visible with clear margin on all four sides.';
+      } else if (lower.includes('border') || lower.includes('divider')) {
+        correction = ' CORRECTION — place the sequential poses on one uninterrupted continuous black canvas.';
+      } else if (lower.includes('shorts')) {
+        correction = ' CORRECTION — clearly depict athletic shorts with narrow contour and clothing-detail strokes.';
+      } else if (lower.includes('both knees') && lower.includes('plough pose')) {
+        correction = ' CORRECTION — in the right pose, bend both knees until they touch the floor directly beside the ears.';
+      } else {
+        correction = note
+          ? ` CORRECTION — the previous attempt was rejected: "${note}". Do not repeat that.`
+          : ' CORRECTION — the previous attempt was rejected on review; match the style contract exactly.';
+      }
     }
 
     briefs.push({
@@ -106,10 +156,11 @@ for (const r of PLAN) {
       overridden: isOverridden, redo: rv?.verdict === 'redo',
       styleVersion,
       file: `frames/inbox/${r.slug}--${sex}.png`,
+      patternRefs: PATTERN_REFS[sex],
       refs,
       prompt:
         `${prefix} ${FRAME_MEANING[r.discipline][frames] ?? FRAME_MEANING[r.discipline][3]} ` +
-        `Subject: ${FIGURE[sex]}, ${feet}, performing ${r.name}${prop}, ${view} view. ${poseGuide}${correction}`,
+        `Subject: ${FIGURE[sex]}, ${feet}, performing ${r.name}${prop}, ${view} view. ${poseGuide}${correction} ${NEVER}`,
     });
   }
 }
@@ -118,7 +169,8 @@ mkdirSync(join(ROOT, 'dist'), { recursive: true });
 writeFileSync(join(ROOT, 'dist', 'briefs.json'), JSON.stringify({
   generatedAt: new Date().toISOString(), styleVersion,
   anchor: 'deadlift--m',
-  note: 'Generate the anchor FIRST and get it accepted; every later batch is checked against it. See frames/STYLE.md.',
+  approvedPattern: PATTERN_REFS,
+  note: 'Generate the anchor FIRST and get it accepted; every later batch is checked against the user-approved pattern references and anchor. See frames/STYLE.md.',
   briefs,
 }, null, 1) + '\n');
 

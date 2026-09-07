@@ -1,0 +1,19 @@
+{
+  "styleVersion": "v1",
+  "ingestedAt": "2026-09-06",
+  "sourceFile": "parsvottanasana--f.png",
+  "sourceSize": "1254x1254",
+  "frames": 1,
+  "background": "keyed-from-dark",
+  "cutsPx": [],
+  "nominalCutsPx": [],
+  "forcedCuts": [],
+  "dividersErased": [],
+  "canvasWidthPx": 1254,
+  "reclaimedInkPx": 0,
+  "sharedElements": 0,
+  "centeringShiftsPx": [
+    -3
+  ],
+  "mirroredFrames": []
+}

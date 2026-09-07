@@ -1,0 +1,27 @@
+{
+  "styleVersion": "v1",
+  "ingestedAt": "2026-09-06",
+  "sourceFile": "v-up--f.png",
+  "sourceSize": "2172x724",
+  "frames": 3,
+  "background": "keyed-from-dark",
+  "cutsPx": [
+    946,
+    1582
+  ],
+  "nominalCutsPx": [
+    724,
+    1448
+  ],
+  "forcedCuts": [],
+  "dividersErased": [],
+  "canvasWidthPx": 926,
+  "reclaimedInkPx": 0,
+  "sharedElements": 0,
+  "centeringShiftsPx": [
+    -30,
+    -750,
+    -1411
+  ],
+  "mirroredFrames": []
+}

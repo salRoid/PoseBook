@@ -1,5 +1,5 @@
 {
-  "name": "@suite/kinetic",
+  "name": "@suite/posebook",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -9,9 +9,11 @@
     "export": "node scripts/export-health.mjs",
     "missing": "node scripts/missing.mjs",
     "ingest": "node scripts/ingest.mjs",
+    "author-color-details": "node scripts/author-color-details.mjs",
     "plan": "node scripts/plan.mjs",
     "brief": "node scripts/brief.mjs",
     "ingest-frames": "node scripts/ingest-frames.mjs",
+    "index": "node scripts/build-index.mjs",
     "status": "node scripts/status.mjs",
     "gallery": "node scripts/gallery.mjs",
     "review": "node scripts/review.mjs",
@@ -24,5 +26,8 @@
   },
   "devDependencies": {
     "sharp": ">=0.34.5"
+  },
+  "exports": {
+    "./index.json": "./frames/corpus/index.json"
   }
 }

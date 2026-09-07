@@ -1,0 +1,1407 @@
+{
+  "generatedAt": "2026-09-07",
+  "styleVersion": "v1",
+  "canvas": 512,
+  "movements": {
+    "ab-wheel-rollout": {
+      "m": 3,
+      "f": 3
+    },
+    "adho-mukha-svanasana": {
+      "m": 1,
+      "f": 1
+    },
+    "adho-mukha-vrksasana": {
+      "m": 2,
+      "f": 2
+    },
+    "agnistambhasana": {
+      "m": 1,
+      "f": 1
+    },
+    "air-bike": {
+      "m": 3,
+      "f": 3
+    },
+    "akarna-dhanurasana": {
+      "m": 1,
+      "f": 1
+    },
+    "ananda-balasana": {
+      "m": 1,
+      "f": 1
+    },
+    "anantasana": {
+      "m": 1,
+      "f": 1
+    },
+    "anjaneyasana": {
+      "m": 1,
+      "f": 1
+    },
+    "ankle-dorsiflexion-rock": {
+      "m": 3,
+      "f": 3
+    },
+    "ardha-chandrasana": {
+      "m": 2,
+      "f": 2
+    },
+    "ardha-matsyendrasana": {
+      "m": 1,
+      "f": 1
+    },
+    "ardha-navasana": {
+      "m": 2,
+      "f": 2
+    },
+    "ardha-uttanasana": {
+      "m": 1,
+      "f": 1
+    },
+    "arm-circle": {
+      "m": 3,
+      "f": 3
+    },
+    "arnold-press": {
+      "m": 3,
+      "f": 3
+    },
+    "ashtanga-namaskara": {
+      "m": 3,
+      "f": 3
+    },
+    "assisted-pull-up": {
+      "m": 3,
+      "f": 3
+    },
+    "astavakrasana": {
+      "m": 2,
+      "f": 2
+    },
+    "back-extension": {
+      "m": 3,
+      "f": 3
+    },
+    "back-squat": {
+      "m": 3,
+      "f": 3
+    },
+    "baddha-konasana": {
+      "m": 1,
+      "f": 1
+    },
+    "bakasana": {
+      "m": 2,
+      "f": 2
+    },
+    "balasana": {
+      "m": 1,
+      "f": 1
+    },
+    "band-pull-apart": {
+      "m": 3,
+      "f": 3
+    },
+    "band-shoulder-dislocate": {
+      "m": 3,
+      "f": 3
+    },
+    "banded-lateral-walk": {
+      "m": 3,
+      "f": 3
+    },
+    "barbell-bench-press": {
+      "m": 3,
+      "f": 3
+    },
+    "barbell-curl": {
+      "m": 3,
+      "f": 3
+    },
+    "barbell-high-pull": {
+      "m": 3,
+      "f": 3
+    },
+    "barbell-row": {
+      "m": 3,
+      "f": 3
+    },
+    "barbell-shrug": {
+      "m": 3,
+      "f": 3
+    },
+    "battle-ropes": {
+      "m": 3,
+      "f": 3
+    },
+    "bear-crawl": {
+      "m": 3,
+      "f": 3
+    },
+    "belt-squat": {
+      "m": 3,
+      "f": 3
+    },
+    "bench-dip": {
+      "m": 3,
+      "f": 3
+    },
+    "bharadvajasana": {
+      "m": 1,
+      "f": 1
+    },
+    "bhekasana": {
+      "m": 2,
+      "f": 2
+    },
+    "bhujangasana": {
+      "m": 2,
+      "f": 2
+    },
+    "bhujapidasana": {
+      "m": 2,
+      "f": 2
+    },
+    "bicycle-crunch": {
+      "m": 3,
+      "f": 3
+    },
+    "bird-dog": {
+      "m": 1,
+      "f": 1
+    },
+    "bitilasana-marjaryasana": {
+      "m": 3,
+      "f": 3
+    },
+    "box-jump": {
+      "m": 3,
+      "f": 3
+    },
+    "box-squat": {
+      "m": 3,
+      "f": 3
+    },
+    "broad-jump": {
+      "m": 3,
+      "f": 3
+    },
+    "bulgarian-split-squat": {
+      "m": 3,
+      "f": 3
+    },
+    "burpee": {
+      "m": 3,
+      "f": 3
+    },
+    "cable-crunch": {
+      "m": 3,
+      "f": 3
+    },
+    "cable-curl": {
+      "m": 3,
+      "f": 3
+    },
+    "cable-external-rotation": {
+      "m": 3,
+      "f": 3
+    },
+    "cable-face-pull-rope": {
+      "m": 3,
+      "f": 3
+    },
+    "cable-fly": {
+      "m": 3,
+      "f": 3
+    },
+    "cable-front-raise": {
+      "m": 3,
+      "f": 3
+    },
+    "cable-kickback": {
+      "m": 3,
+      "f": 3
+    },
+    "cable-lateral-raise": {
+      "m": 3,
+      "f": 3
+    },
+    "cable-pull-through": {
+      "m": 3,
+      "f": 3
+    },
+    "cable-rope-hammer-curl": {
+      "m": 3,
+      "f": 3
+    },
+    "cable-woodchopper": {
+      "m": 3,
+      "f": 3
+    },
+    "cat-cow": {
+      "m": 3,
+      "f": 3
+    },
+    "chaturanga-dandasana": {
+      "m": 1,
+      "f": 1
+    },
+    "chaturanga-hold": {
+      "m": 2,
+      "f": 2
+    },
+    "chest-supported-row": {
+      "m": 3,
+      "f": 3
+    },
+    "childs-pose": {
+      "m": 3,
+      "f": 3
+    },
+    "chin-up": {
+      "m": 3,
+      "f": 3
+    },
+    "clean-and-jerk": {
+      "m": 3,
+      "f": 3
+    },
+    "clean-pull": {
+      "m": 3,
+      "f": 3
+    },
+    "close-grip-bench-press": {
+      "m": 3,
+      "f": 3
+    },
+    "close-grip-dumbbell-press": {
+      "m": 3,
+      "f": 3
+    },
+    "concentration-curl": {
+      "m": 3,
+      "f": 3
+    },
+    "copenhagen-plank": {
+      "m": 1,
+      "f": 1
+    },
+    "cossack-squat": {
+      "m": 3,
+      "f": 3
+    },
+    "couch-stretch": {
+      "m": 3,
+      "f": 3
+    },
+    "crunch": {
+      "m": 3,
+      "f": 3
+    },
+    "cycling": {
+      "m": 3,
+      "f": 3
+    },
+    "dandasana": {
+      "m": 1,
+      "f": 1
+    },
+    "dead-bug": {
+      "m": 3,
+      "f": 3
+    },
+    "dead-hang": {
+      "m": 1,
+      "f": 1
+    },
+    "deadlift": {
+      "m": 3,
+      "f": 3
+    },
+    "decline-bench-press": {
+      "m": 3,
+      "f": 3
+    },
+    "decline-dumbbell-press": {
+      "m": 3,
+      "f": 3
+    },
+    "decline-push-up": {
+      "m": 3,
+      "f": 3
+    },
+    "decline-sit-up": {
+      "m": 3,
+      "f": 3
+    },
+    "deep-squat-hold": {
+      "m": 1,
+      "f": 1
+    },
+    "dhanurasana": {
+      "m": 2,
+      "f": 2
+    },
+    "diamond-push-up": {
+      "m": 3,
+      "f": 3
+    },
+    "dip": {
+      "m": 3,
+      "f": 3
+    },
+    "donkey-calf-raise": {
+      "m": 3,
+      "f": 3
+    },
+    "downward-dog": {
+      "m": 3,
+      "f": 3
+    },
+    "dragon-flag": {
+      "m": 3,
+      "f": 3
+    },
+    "dumbbell-bench-press": {
+      "m": 3,
+      "f": 3
+    },
+    "dumbbell-clean-and-press": {
+      "m": 3,
+      "f": 3
+    },
+    "dumbbell-curl": {
+      "m": 3,
+      "f": 3
+    },
+    "dumbbell-fly": {
+      "m": 3,
+      "f": 3
+    },
+    "dumbbell-pullover": {
+      "m": 3,
+      "f": 3
+    },
+    "dumbbell-row": {
+      "m": 3,
+      "f": 3
+    },
+    "dumbbell-shrug": {
+      "m": 3,
+      "f": 3
+    },
+    "dumbbell-side-bend": {
+      "m": 3,
+      "f": 3
+    },
+    "dumbbell-snatch": {
+      "m": 3,
+      "f": 3
+    },
+    "durvasasana": {
+      "m": 2,
+      "f": 2
+    },
+    "eka-pada-koundinyasana": {
+      "m": 2,
+      "f": 2
+    },
+    "eka-pada-rajakapotasana": {
+      "m": 1,
+      "f": 1
+    },
+    "elliptical": {
+      "m": 3,
+      "f": 3
+    },
+    "ez-bar-curl": {
+      "m": 3,
+      "f": 3
+    },
+    "face-pull": {
+      "m": 3,
+      "f": 3
+    },
+    "farmers-carry": {
+      "m": 3,
+      "f": 3
+    },
+    "farmers-walk-heavy": {
+      "m": 3,
+      "f": 3
+    },
+    "floor-press": {
+      "m": 3,
+      "f": 3
+    },
+    "flutter-kick": {
+      "m": 3,
+      "f": 3
+    },
+    "front-raise": {
+      "m": 3,
+      "f": 3
+    },
+    "front-squat": {
+      "m": 3,
+      "f": 3
+    },
+    "garudasana": {
+      "m": 2,
+      "f": 2
+    },
+    "glute-bridge": {
+      "m": 3,
+      "f": 3
+    },
+    "glute-ham-raise": {
+      "m": 3,
+      "f": 3
+    },
+    "goblet-squat": {
+      "m": 3,
+      "f": 3
+    },
+    "gomukhasana": {
+      "m": 1,
+      "f": 1
+    },
+    "good-morning": {
+      "m": 3,
+      "f": 3
+    },
+    "hack-squat": {
+      "m": 3,
+      "f": 3
+    },
+    "halasana": {
+      "m": 2,
+      "f": 2
+    },
+    "hammer-curl": {
+      "m": 3,
+      "f": 3
+    },
+    "handstand-push-up": {
+      "m": 3,
+      "f": 3
+    },
+    "hang-clean": {
+      "m": 1,
+      "f": 1
+    },
+    "hang-snatch": {
+      "m": 1,
+      "f": 1
+    },
+    "hanging-knee-raise": {
+      "m": 1,
+      "f": 1
+    },
+    "hanging-leg-raise": {
+      "m": 1,
+      "f": 1
+    },
+    "hanging-oblique-raise": {
+      "m": 1,
+      "f": 1
+    },
+    "hanumanasana": {
+      "m": 1,
+      "f": 1
+    },
+    "heavy-bag": {
+      "m": 3,
+      "f": 3
+    },
+    "high-knees": {
+      "m": 3,
+      "f": 3
+    },
+    "high-row-machine": {
+      "m": 3,
+      "f": 3
+    },
+    "high-to-low-cable-fly": {
+      "m": 3,
+      "f": 3
+    },
+    "hill-sprint": {
+      "m": 3,
+      "f": 3
+    },
+    "hip-abduction-machine": {
+      "m": 3,
+      "f": 3
+    },
+    "hip-adduction-machine": {
+      "m": 3,
+      "f": 3
+    },
+    "hip-airplane": {
+      "m": 3,
+      "f": 3
+    },
+    "hip-flexor-raise": {
+      "m": 3,
+      "f": 3
+    },
+    "hip-thrust": {
+      "m": 3,
+      "f": 3
+    },
+    "hollow-body-hold": {
+      "m": 1,
+      "f": 1
+    },
+    "incline-barbell-press": {
+      "m": 3,
+      "f": 3
+    },
+    "incline-dumbbell-curl": {
+      "m": 3,
+      "f": 3
+    },
+    "incline-dumbbell-press": {
+      "m": 3,
+      "f": 3
+    },
+    "incline-machine-press": {
+      "m": 3,
+      "f": 3
+    },
+    "incline-push-up": {
+      "m": 3,
+      "f": 3
+    },
+    "incline-treadmill-walk": {
+      "m": 3,
+      "f": 3
+    },
+    "inverted-row": {
+      "m": 3,
+      "f": 3
+    },
+    "janu-sirsasana": {
+      "m": 1,
+      "f": 1
+    },
+    "jathara-parivartanasana": {
+      "m": 1,
+      "f": 1
+    },
+    "jm-press": {
+      "m": 3,
+      "f": 3
+    },
+    "jump-rope": {
+      "m": 3,
+      "f": 3
+    },
+    "jump-squat": {
+      "m": 3,
+      "f": 3
+    },
+    "jumping-jack": {
+      "m": 3,
+      "f": 3
+    },
+    "kapotasana": {
+      "m": 2,
+      "f": 2
+    },
+    "karnapidasana": {
+      "m": 2,
+      "f": 2
+    },
+    "kettlebell-clean": {
+      "m": 3,
+      "f": 3
+    },
+    "kettlebell-overhead-press": {
+      "m": 3,
+      "f": 3
+    },
+    "kettlebell-snatch": {
+      "m": 3,
+      "f": 3
+    },
+    "kettlebell-swing": {
+      "m": 3,
+      "f": 3
+    },
+    "kettlebell-windmill": {
+      "m": 3,
+      "f": 3
+    },
+    "kraunchasana": {
+      "m": 1,
+      "f": 1
+    },
+    "kurmasana": {
+      "m": 1,
+      "f": 1
+    },
+    "l-sit": {
+      "m": 1,
+      "f": 1
+    },
+    "laghu-vajrasana": {
+      "m": 2,
+      "f": 2
+    },
+    "landmine-press": {
+      "m": 3,
+      "f": 3
+    },
+    "landmine-rotation": {
+      "m": 3,
+      "f": 3
+    },
+    "lat-pulldown": {
+      "m": 3,
+      "f": 3
+    },
+    "lateral-bound": {
+      "m": 3,
+      "f": 3
+    },
+    "lateral-lunge": {
+      "m": 3,
+      "f": 3
+    },
+    "lateral-raise": {
+      "m": 3,
+      "f": 3
+    },
+    "leg-curl": {
+      "m": 3,
+      "f": 3
+    },
+    "leg-extension": {
+      "m": 3,
+      "f": 3
+    },
+    "leg-press": {
+      "m": 3,
+      "f": 3
+    },
+    "leg-press-calf-raise": {
+      "m": 3,
+      "f": 3
+    },
+    "leg-swing": {
+      "m": 3,
+      "f": 3
+    },
+    "lolasana": {
+      "m": 2,
+      "f": 2
+    },
+    "low-to-high-cable-fly": {
+      "m": 3,
+      "f": 3
+    },
+    "lying-leg-curl": {
+      "m": 3,
+      "f": 3
+    },
+    "machine-chest-press": {
+      "m": 3,
+      "f": 3
+    },
+    "machine-crunch": {
+      "m": 3,
+      "f": 3
+    },
+    "machine-lateral-raise": {
+      "m": 3,
+      "f": 3
+    },
+    "machine-preacher-curl": {
+      "m": 3,
+      "f": 3
+    },
+    "machine-row": {
+      "m": 3,
+      "f": 3
+    },
+    "machine-shoulder-press": {
+      "m": 3,
+      "f": 3
+    },
+    "machine-triceps-extension": {
+      "m": 3,
+      "f": 3
+    },
+    "makarasana": {
+      "m": 1,
+      "f": 1
+    },
+    "malasana": {
+      "m": 1,
+      "f": 1
+    },
+    "mandukasana": {
+      "m": 1,
+      "f": 1
+    },
+    "marichyasana-iii": {
+      "m": 1,
+      "f": 1
+    },
+    "matsyasana": {
+      "m": 2,
+      "f": 2
+    },
+    "mayurasana": {
+      "m": 2,
+      "f": 2
+    },
+    "meadows-row": {
+      "m": 3,
+      "f": 3
+    },
+    "mountain-climber": {
+      "m": 3,
+      "f": 3
+    },
+    "natarajasana": {
+      "m": 2,
+      "f": 2
+    },
+    "navasana": {
+      "m": 2,
+      "f": 2
+    },
+    "neutral-grip-pull-up": {
+      "m": 3,
+      "f": 3
+    },
+    "neutral-grip-pulldown": {
+      "m": 3,
+      "f": 3
+    },
+    "ninety-ninety-hip-rotation": {
+      "m": 3,
+      "f": 3
+    },
+    "nordic-curl": {
+      "m": 3,
+      "f": 3
+    },
+    "overhead-carry": {
+      "m": 3,
+      "f": 3
+    },
+    "overhead-press": {
+      "m": 3,
+      "f": 3
+    },
+    "overhead-squat": {
+      "m": 3,
+      "f": 3
+    },
+    "overhead-triceps-extension": {
+      "m": 3,
+      "f": 3
+    },
+    "padangusthasana": {
+      "m": 1,
+      "f": 1
+    },
+    "padmasana": {
+      "m": 1,
+      "f": 1
+    },
+    "pallof-press": {
+      "m": 3,
+      "f": 3
+    },
+    "parighasana": {
+      "m": 1,
+      "f": 1
+    },
+    "parivrtta-ardha-chandrasana": {
+      "m": 1,
+      "f": 1
+    },
+    "parivrtta-janu-sirsasana": {
+      "m": 1,
+      "f": 1
+    },
+    "parivrtta-parsvakonasana": {
+      "m": 1,
+      "f": 1
+    },
+    "parivrtta-trikonasana": {
+      "m": 1,
+      "f": 1
+    },
+    "parsva-bakasana": {
+      "m": 2,
+      "f": 2
+    },
+    "parsvottanasana": {
+      "m": 1,
+      "f": 1
+    },
+    "pasasana": {
+      "m": 1,
+      "f": 1
+    },
+    "paschimottanasana": {
+      "m": 1,
+      "f": 1
+    },
+    "pec-deck": {
+      "m": 3,
+      "f": 3
+    },
+    "pendlay-row": {
+      "m": 3,
+      "f": 3
+    },
+    "pendulum-squat": {
+      "m": 3,
+      "f": 3
+    },
+    "phalakasana": {
+      "m": 1,
+      "f": 1
+    },
+    "pigeon-stretch": {
+      "m": 3,
+      "f": 3
+    },
+    "pike-push-up": {
+      "m": 3,
+      "f": 3
+    },
+    "pincha-mayurasana": {
+      "m": 2,
+      "f": 2
+    },
+    "pistol-squat": {
+      "m": 3,
+      "f": 3
+    },
+    "plank": {
+      "m": 1,
+      "f": 1
+    },
+    "plate-loaded-chest-press": {
+      "m": 3,
+      "f": 3
+    },
+    "plate-pinch": {
+      "m": 1,
+      "f": 1
+    },
+    "plyo-push-up": {
+      "m": 3,
+      "f": 3
+    },
+    "power-clean": {
+      "m": 3,
+      "f": 3
+    },
+    "power-snatch": {
+      "m": 3,
+      "f": 3
+    },
+    "prasarita-padottanasana": {
+      "m": 1,
+      "f": 1
+    },
+    "preacher-curl": {
+      "m": 3,
+      "f": 3
+    },
+    "prone-y-raise": {
+      "m": 3,
+      "f": 3
+    },
+    "pull-up": {
+      "m": 3,
+      "f": 3
+    },
+    "purvottanasana": {
+      "m": 2,
+      "f": 2
+    },
+    "push-jerk": {
+      "m": 3,
+      "f": 3
+    },
+    "push-press": {
+      "m": 3,
+      "f": 3
+    },
+    "push-up": {
+      "m": 3,
+      "f": 3
+    },
+    "rack-pull": {
+      "m": 3,
+      "f": 3
+    },
+    "reverse-crunch": {
+      "m": 3,
+      "f": 3
+    },
+    "reverse-curl": {
+      "m": 3,
+      "f": 3
+    },
+    "reverse-fly": {
+      "m": 3,
+      "f": 3
+    },
+    "reverse-grip-lat-pulldown": {
+      "m": 3,
+      "f": 3
+    },
+    "reverse-grip-pushdown": {
+      "m": 3,
+      "f": 3
+    },
+    "reverse-hyperextension": {
+      "m": 3,
+      "f": 3
+    },
+    "reverse-lunge": {
+      "m": 3,
+      "f": 3
+    },
+    "reverse-pec-deck": {
+      "m": 3,
+      "f": 3
+    },
+    "reverse-wrist-curl": {
+      "m": 3,
+      "f": 3
+    },
+    "ring-push-up": {
+      "m": 3,
+      "f": 3
+    },
+    "romanian-deadlift": {
+      "m": 3,
+      "f": 3
+    },
+    "rowing-machine": {
+      "m": 3,
+      "f": 3
+    },
+    "running": {
+      "m": 3,
+      "f": 3
+    },
+    "russian-twist": {
+      "m": 3,
+      "f": 3
+    },
+    "salabhasana": {
+      "m": 2,
+      "f": 2
+    },
+    "salamba-bhujangasana": {
+      "m": 2,
+      "f": 2
+    },
+    "samakonasana": {
+      "m": 1,
+      "f": 1
+    },
+    "sarvangasana": {
+      "m": 2,
+      "f": 2
+    },
+    "savasana": {
+      "m": 1,
+      "f": 1
+    },
+    "scapular-pull-up": {
+      "m": 3,
+      "f": 3
+    },
+    "scapular-push-up": {
+      "m": 3,
+      "f": 3
+    },
+    "seal-row": {
+      "m": 3,
+      "f": 3
+    },
+    "seated-barbell-press": {
+      "m": 3,
+      "f": 3
+    },
+    "seated-cable-row": {
+      "m": 3,
+      "f": 3
+    },
+    "seated-calf-raise": {
+      "m": 3,
+      "f": 3
+    },
+    "seated-db-shoulder-press": {
+      "m": 3,
+      "f": 3
+    },
+    "seated-leg-curl": {
+      "m": 3,
+      "f": 3
+    },
+    "setu-bandha-sarvangasana": {
+      "m": 2,
+      "f": 2
+    },
+    "siddhasana": {
+      "m": 1,
+      "f": 1
+    },
+    "side-plank": {
+      "m": 1,
+      "f": 1
+    },
+    "simhasana": {
+      "m": 1,
+      "f": 1
+    },
+    "single-arm-cable-pushdown": {
+      "m": 3,
+      "f": 3
+    },
+    "single-arm-lat-pulldown": {
+      "m": 3,
+      "f": 3
+    },
+    "single-leg-calf-raise": {
+      "m": 3,
+      "f": 3
+    },
+    "single-leg-hip-thrust": {
+      "m": 3,
+      "f": 3
+    },
+    "single-leg-press": {
+      "m": 3,
+      "f": 3
+    },
+    "single-leg-rdl": {
+      "m": 3,
+      "f": 3
+    },
+    "sirsasana": {
+      "m": 2,
+      "f": 2
+    },
+    "sissy-squat": {
+      "m": 3,
+      "f": 3
+    },
+    "sit-up": {
+      "m": 3,
+      "f": 3
+    },
+    "ski-erg": {
+      "m": 3,
+      "f": 3
+    },
+    "skull-crusher": {
+      "m": 3,
+      "f": 3
+    },
+    "sled-drag": {
+      "m": 3,
+      "f": 3
+    },
+    "sled-push": {
+      "m": 3,
+      "f": 3
+    },
+    "smith-machine-bench-press": {
+      "m": 3,
+      "f": 3
+    },
+    "smith-machine-squat": {
+      "m": 3,
+      "f": 3
+    },
+    "snatch-pull": {
+      "m": 3,
+      "f": 3
+    },
+    "spider-curl": {
+      "m": 3,
+      "f": 3
+    },
+    "split-jerk": {
+      "m": 3,
+      "f": 3
+    },
+    "split-squat": {
+      "m": 3,
+      "f": 3
+    },
+    "sprint-intervals": {
+      "m": 3,
+      "f": 3
+    },
+    "stair-climber": {
+      "m": 3,
+      "f": 3
+    },
+    "standing-calf-raise": {
+      "m": 3,
+      "f": 3
+    },
+    "stationary-bike-intervals": {
+      "m": 3,
+      "f": 3
+    },
+    "step-up": {
+      "m": 3,
+      "f": 3
+    },
+    "stiff-leg-deadlift": {
+      "m": 3,
+      "f": 3
+    },
+    "straight-arm-pulldown": {
+      "m": 3,
+      "f": 3
+    },
+    "suitcase-carry": {
+      "m": 3,
+      "f": 3
+    },
+    "sukhasana": {
+      "m": 1,
+      "f": 1
+    },
+    "sumo-deadlift": {
+      "m": 3,
+      "f": 3
+    },
+    "supta-baddha-konasana": {
+      "m": 1,
+      "f": 1
+    },
+    "supta-matsyendrasana": {
+      "m": 1,
+      "f": 1
+    },
+    "supta-padangusthasana": {
+      "m": 1,
+      "f": 1
+    },
+    "supta-virasana": {
+      "m": 1,
+      "f": 1
+    },
+    "swimming": {
+      "m": 3,
+      "f": 3
+    },
+    "t-bar-row": {
+      "m": 3,
+      "f": 3
+    },
+    "tadasana": {
+      "m": 1,
+      "f": 1
+    },
+    "thoracic-rotation": {
+      "m": 3,
+      "f": 3
+    },
+    "thruster": {
+      "m": 3,
+      "f": 3
+    },
+    "tibialis-raise": {
+      "m": 3,
+      "f": 3
+    },
+    "tittibhasana": {
+      "m": 2,
+      "f": 2
+    },
+    "toes-to-bar": {
+      "m": 3,
+      "f": 3
+    },
+    "trap-bar-deadlift": {
+      "m": 3,
+      "f": 3
+    },
+    "trianga-mukhaikapada-paschimottanasana": {
+      "m": 1,
+      "f": 1
+    },
+    "triceps-kickback": {
+      "m": 3,
+      "f": 3
+    },
+    "triceps-pushdown": {
+      "m": 3,
+      "f": 3
+    },
+    "trikonasana": {
+      "m": 1,
+      "f": 1
+    },
+    "turkish-get-up": {
+      "m": 3,
+      "f": 3
+    },
+    "upavistha-konasana": {
+      "m": 1,
+      "f": 1
+    },
+    "upright-row": {
+      "m": 3,
+      "f": 3
+    },
+    "urdhva-dhanurasana": {
+      "m": 2,
+      "f": 2
+    },
+    "urdhva-hastasana": {
+      "m": 1,
+      "f": 1
+    },
+    "urdhva-mukha-svanasana": {
+      "m": 1,
+      "f": 1
+    },
+    "ustrasana": {
+      "m": 2,
+      "f": 2
+    },
+    "utkatasana": {
+      "m": 1,
+      "f": 1
+    },
+    "uttanasana": {
+      "m": 1,
+      "f": 1
+    },
+    "utthan-pristhasana": {
+      "m": 1,
+      "f": 1
+    },
+    "utthita-hasta-padangusthasana": {
+      "m": 2,
+      "f": 2
+    },
+    "utthita-parsvakonasana": {
+      "m": 1,
+      "f": 1
+    },
+    "v-up": {
+      "m": 3,
+      "f": 3
+    },
+    "vajrasana": {
+      "m": 1,
+      "f": 1
+    },
+    "vasisthasana": {
+      "m": 2,
+      "f": 2
+    },
+    "viparita-dandasana": {
+      "m": 2,
+      "f": 2
+    },
+    "viparita-karani": {
+      "m": 1,
+      "f": 1
+    },
+    "viparita-virabhadrasana": {
+      "m": 1,
+      "f": 1
+    },
+    "virabhadrasana-i": {
+      "m": 1,
+      "f": 1
+    },
+    "virabhadrasana-ii": {
+      "m": 1,
+      "f": 1
+    },
+    "virabhadrasana-iii": {
+      "m": 2,
+      "f": 2
+    },
+    "virasana": {
+      "m": 1,
+      "f": 1
+    },
+    "vrischikasana": {
+      "m": 2,
+      "f": 2
+    },
+    "vrksasana": {
+      "m": 2,
+      "f": 2
+    },
+    "vyaghrasana": {
+      "m": 2,
+      "f": 2
+    },
+    "walking-lunge": {
+      "m": 3,
+      "f": 3
+    },
+    "wall-ball": {
+      "m": 3,
+      "f": 3
+    },
+    "wall-slide": {
+      "m": 3,
+      "f": 3
+    },
+    "weighted-pull-up": {
+      "m": 3,
+      "f": 3
+    },
+    "wide-grip-lat-pulldown": {
+      "m": 3,
+      "f": 3
+    },
+    "windshield-wiper": {
+      "m": 3,
+      "f": 3
+    },
+    "worlds-greatest-stretch": {
+      "m": 3,
+      "f": 3
+    },
+    "wrist-curl": {
+      "m": 3,
+      "f": 3
+    },
+    "wrist-roller": {
+      "m": 3,
+      "f": 3
+    },
+    "yoganidrasana": {
+      "m": 1,
+      "f": 1
+    },
+    "z-press": {
+      "m": 3,
+      "f": 3
+    },
+    "zottman-curl": {
+      "m": 3,
+      "f": 3
+    }
+  }
+}

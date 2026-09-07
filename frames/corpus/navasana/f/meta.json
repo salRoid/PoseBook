@@ -1,12 +1,24 @@
 {
   "styleVersion": "v1",
-  "ingestedAt": "2026-08-27",
+  "ingestedAt": "2026-09-06",
   "sourceFile": "navasana--f.png",
-  "sourceSize": "1024x512",
+  "sourceSize": "1774x887",
   "frames": 2,
-  "background": "alpha",
+  "background": "keyed-from-dark",
+  "cutsPx": [
+    880
+  ],
+  "nominalCutsPx": [
+    887
+  ],
+  "forcedCuts": [],
+  "dividersErased": [],
+  "canvasWidthPx": 887,
+  "reclaimedInkPx": 0,
+  "sharedElements": 0,
   "centeringShiftsPx": [
-    -1,
-    4
-  ]
+    -8,
+    -877
+  ],
+  "mirroredFrames": []
 }

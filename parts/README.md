@@ -4,3 +4,8 @@
 files `../PARTS.md` specifies). Vectorised, anchored parts live here as
 `manifest.json` once ingested. A part missing from the manifest falls back to
 stroke rendering, so the library can be filled in any order.
+
+`anatomy.mjs` is the colour-reference contract: it names visible adult
+anatomical regions and their colour tokens. Run `npm run author-color-details`
+to write layered reference PNGs to `color-assets/anatomical/`. These layers
+are intentionally not traced into the movement geometry.

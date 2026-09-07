@@ -1,0 +1,23 @@
+{
+  "styleVersion": "v1",
+  "ingestedAt": "2026-09-04",
+  "sourceFile": "astavakrasana--f.png",
+  "sourceSize": "1774x887",
+  "frames": 2,
+  "background": "keyed-from-dark",
+  "cutsPx": [
+    700
+  ],
+  "nominalCutsPx": [
+    887
+  ],
+  "forcedCuts": [],
+  "dividersErased": [],
+  "canvasWidthPx": 998,
+  "reclaimedInkPx": 0,
+  "sharedElements": 0,
+  "centeringShiftsPx": [
+    138,
+    -750
+  ]
+}

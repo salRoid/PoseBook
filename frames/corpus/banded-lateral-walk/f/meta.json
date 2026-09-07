@@ -1,13 +1,26 @@
 {
   "styleVersion": "v1",
-  "ingestedAt": "2026-08-27",
+  "ingestedAt": "2026-09-04",
   "sourceFile": "banded-lateral-walk--f.png",
   "sourceSize": "1536x512",
   "frames": 3,
   "background": "alpha",
+  "cutsPx": [
+    490,
+    998
+  ],
+  "nominalCutsPx": [
+    512,
+    1024
+  ],
+  "forcedCuts": [],
+  "dividersErased": [],
+  "canvasWidthPx": 512,
+  "reclaimedInkPx": 0,
+  "sharedElements": 0,
   "centeringShiftsPx": [
     -27,
-    24,
-    34
+    -488,
+    -990
   ]
 }

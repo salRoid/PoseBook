@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Read the gallery's saved review back into the repo.
 //
-//   npm run review                     picks up ~/Downloads/kinetic-review.json
+//   npm run review                     picks up ~/Downloads/posebook-review.json
 //   npm run review -- <path>           an explicit file
 //   npm run review -- --apply          ALSO delete every "redo" from the corpus,
 //                                      so `npm run status` lists them as to-do
@@ -15,6 +15,7 @@ import { readFileSync, writeFileSync, existsSync, rmSync, mkdirSync } from 'node
 import { join, dirname } from 'node:path';
 import { homedir } from 'node:os';
 import { fileURLToPath } from 'node:url';
+import { backupFrameSet } from './frame-backup.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const STORE = join(ROOT, 'frames', 'review.json');
@@ -22,10 +23,14 @@ const CORPUS = join(ROOT, 'frames', 'corpus');
 
 const argv = process.argv.slice(2);
 const APPLY = argv.includes('--apply');
-const src = argv.find((a) => !a.startsWith('--')) ?? join(homedir(), 'Downloads', 'kinetic-review.json');
+// Renamed Kinetic -> PoseBook on 2026-09-06: a review downloaded before the
+// rename is still sitting in ~/Downloads under the old name, so fall back to
+// it rather than reporting "no review file" at a reviewer who just saved one.
+const DEFAULTS = ['posebook-review.json', 'kinetic-review.json'].map((f) => join(homedir(), 'Downloads', f));
+const src = argv.find((a) => !a.startsWith('--')) ?? DEFAULTS.find(existsSync) ?? DEFAULTS[0];
 
 if (!existsSync(src)) {
-  console.error(`kinetic: no review file at ${src}\n  Open dist/gallery.html, add notes, click "save review →", then re-run.`);
+  console.error(`posebook: no review file at ${src}\n  Open dist/gallery.html, add notes, click "save review →", then re-run.`);
   process.exit(1);
 }
 
@@ -49,7 +54,7 @@ const redo = all.filter(([, r]) => r.verdict === 'redo');
 const keep = all.filter(([, r]) => r.verdict === 'ok');
 const noted = all.filter(([, r]) => (r.note || '').trim());
 
-console.log(`\n── kinetic · review ── from ${src}\n`);
+console.log(`\n── posebook · review ── from ${src}\n`);
 console.log(`  merged: ${added} new, ${changed} updated · ${all.length} total on file\n`);
 console.log(`  keep ${keep.length} · redo ${redo.length} · with notes ${noted.length}\n`);
 
@@ -64,6 +69,12 @@ if (noted.length) {
 
 if (redo.length) {
   if (APPLY) {
+    const records = redo.map(([k, r]) => {
+      const [slug, sex] = k.split('--');
+      return { slug, sex, note: r.note ?? '' };
+    });
+    const backup = backupFrameSet(ROOT, records, 'review-redo');
+    console.log(`  backup: ${backup.dir}`);
     let removed = 0;
     for (const [k] of redo) {
       const [slug, sex] = k.split('--');

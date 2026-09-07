@@ -44,7 +44,7 @@ const KEEP = process.argv.includes('--keep');
 
 let sharp;
 try { ({ default: sharp } = await import('sharp')); }
-catch { console.error('kinetic: sharp is not resolvable — run npm install at the workspace root.'); process.exit(1); }
+catch { console.error('posebook: sharp is not resolvable — run npm install at the workspace root.'); process.exit(1); }
 
 const SPEC = new Map(PARTS.map((p) => [p.slug, p]));
 const SEXKEYS = new Set(SEXES.map((s) => s.key));
@@ -211,7 +211,7 @@ const files = readdirSync(INBOX)
   .filter((f) => !f.startsWith('.') && f !== 'done' && statSync(join(INBOX, f)).isFile())
   .sort();
 if (files.length === 0) {
-  console.log('\nkinetic: parts/inbox/ is empty. Run `npm run missing` for the queue.\n');
+  console.log('\nposebook: parts/inbox/ is empty. Run `npm run missing` for the queue.\n');
   process.exit(0);
 }
 

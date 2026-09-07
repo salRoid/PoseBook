@@ -1,0 +1,26 @@
+{
+  "styleVersion": "v1",
+  "ingestedAt": "2026-09-04",
+  "sourceFile": "sprint-intervals--f.png",
+  "sourceSize": "2160x728",
+  "frames": 3,
+  "background": "keyed-from-dark",
+  "cutsPx": [
+    732,
+    1408
+  ],
+  "nominalCutsPx": [
+    720,
+    1440
+  ],
+  "forcedCuts": [],
+  "dividersErased": [],
+  "canvasWidthPx": 720,
+  "reclaimedInkPx": 0,
+  "sharedElements": 0,
+  "centeringShiftsPx": [
+    -5,
+    -698,
+    -1426
+  ]
+}

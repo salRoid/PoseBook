@@ -1,13 +1,29 @@
 {
   "styleVersion": "v1",
-  "ingestedAt": "2026-08-27",
+  "ingestedAt": "2026-09-04",
   "sourceFile": "ninety-ninety-hip-rotation--m.png",
   "sourceSize": "1536x512",
   "frames": 3,
   "background": "alpha",
+  "cutsPx": [
+    530,
+    1009
+  ],
+  "nominalCutsPx": [
+    512,
+    1024
+  ],
+  "forcedCuts": [],
+  "dividersErased": [
+    "512-513",
+    "1024-1025"
+  ],
+  "canvasWidthPx": 512,
+  "reclaimedInkPx": 0,
+  "sharedElements": 0,
   "centeringShiftsPx": [
     1,
-    38,
-    17
+    -509,
+    -1029
   ]
 }

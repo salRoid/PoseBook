@@ -1,0 +1,18 @@
+{
+  "styleVersion": "v1",
+  "ingestedAt": "2026-09-04",
+  "sourceFile": "deep-squat-hold--f.png",
+  "sourceSize": "512x512",
+  "frames": 1,
+  "background": "alpha",
+  "cutsPx": [],
+  "nominalCutsPx": [],
+  "forcedCuts": [],
+  "dividersErased": [],
+  "canvasWidthPx": 512,
+  "reclaimedInkPx": 0,
+  "sharedElements": 0,
+  "centeringShiftsPx": [
+    -2
+  ]
+}

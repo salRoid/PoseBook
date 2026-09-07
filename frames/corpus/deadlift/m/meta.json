@@ -1,13 +1,26 @@
 {
   "styleVersion": "v1",
-  "ingestedAt": "2026-08-27",
+  "ingestedAt": "2026-09-04",
   "sourceFile": "deadlift--m.png",
   "sourceSize": "2172x724",
   "frames": 3,
   "background": "alpha",
+  "cutsPx": [
+    777,
+    1492
+  ],
+  "nominalCutsPx": [
+    724,
+    1448
+  ],
+  "forcedCuts": [],
+  "dividersErased": [],
+  "canvasWidthPx": 724,
+  "reclaimedInkPx": 0,
+  "sharedElements": 0,
   "centeringShiftsPx": [
     -54,
-    -30,
-    -17
+    -754,
+    -1465
   ]
 }
