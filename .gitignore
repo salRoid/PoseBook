@@ -16,6 +16,16 @@ dist/
 frames/inbox/*
 !frames/inbox/README.md
 
+# The RIG's body-part sources, same category as frames/inbox: raw generated
+# PNGs (parts/inbox) and the 46 colour studies (parts/color-assets). They are
+# how the parts were MADE; `parts/manifest.json` and the traced vectors are the
+# result, and the result is what anything downstream reads. 23.5 MB.
+parts/inbox/
+parts/color-assets/
+
+# Per-tier holding pens for strips mid-generation. Working state, not corpus.
+frames/staging/
+
 # Snapshots taken before a destructive re-ingest. Local safety nets, not
 # history — git is the history.
 frames/backups/
