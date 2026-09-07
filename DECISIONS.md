@@ -1,5 +1,82 @@
 # PoseBook — decision log
 
+## 2026-09-07 — The repo is published Foodsum-shaped: sources ignored, corpus served, manifest exported
+
+**Decided (salroid: *"I want to fucking use it my app and all frames should
+render MFs like foodsum"*).** PoseBook is pushed to `github.com/salRoid/PoseBook`
+and tagged `v1`, and Health consumes it. "Like Foodsum" settled three questions
+this repo had been answering differently.
+
+**`.gitignore` follows Foodsum's, against this repo's own stated doctrine.**
+The header here said *"Codex's sources are never ignored, in any state"* —
+Foodsum ignores `inbox/*` and always has. Foodsum is right, and the reason now
+applies here too: this repo is served to Health over a CDN, and
+`frames/inbox/done` is **563 MB** of raw strips. A heavy repo is a slow clone
+for every consumer, and the strips are reproducible — every one regenerates
+from its own prompt via `npm run missing`. They are working files, not history.
+Also newly ignored: `frames/backups` (123 MB of pre-re-ingest snapshots),
+`dist/` (the RIG's output, which is **not** what Health reads), and
+`review.db`/`reviews/` (a local SQLite surface every reviewer would conflict
+on). 986 MB on disk becomes a 182 MB repo.
+
+**Health SYMLINKS the corpus; nothing is copied.** `Health/public/posebook` ->
+`PoseBook/frames/corpus`, exactly as `Health/public/foodsum` points at
+Foodsum's images. So `npm run ingest-frames` is visible in the app immediately,
+with no export step to forget — which retires `scripts/export-health.mjs` and
+its whole no-clobber design (it existed to stop a half-replaced grid; there is
+nothing left to half-replace).
+
+**`npm run index` is new, and it is the one thing Foodsum's shape did not
+already give us.** It writes `frames/corpus/index.json`, exported as
+`@suite/posebook/index.json`, carrying the single fact a consumer cannot read
+off a URL: **how many frames a movement has**. The corpus is not uniform — 468
+figures at 3 frames, 80 at 2, 152 at 1, because a held asana has no rep to draw
+— so a renderer assuming 3 would 404 on a quarter of it. Counted off DISK, not
+off `meta.json`'s `frames`: meta records what the ingest INTENDED, and what a
+browser can fetch is the truth. The manifest is ~20 KB and rides in Health's
+bundle; the 1716 SVGs are 135 MB and are fetched at runtime.
+
+### Reviewed by measurement before publishing, not by spot check
+
+Coverage 2.0–23.7% of the canvas (no blank frames, no filled silhouettes),
+every frame 512x512, every frame carries `currentColor`, and the 27 frames
+touching a canvas edge are all equipment legitimately running off it — a cable
+run, a heavy-bag chain. All 350 movements have both figures; the two apparent
+gaps were `.DS_Store`.
+
+**The four slugs `NEXT.md` still listed as awaiting regeneration are already
+fixed** — `laghu-vajrasana` m/f arch correctly, `box-jump--m` has a real box,
+`band-shoulder-dislocate--m` is line art with a visible band. Their `redo`
+verdicts in `review.db` are stale, which is part of why that file is no longer
+tracked.
+
+**A trap worth recording, because it nearly produced a false "reviewed".** The
+first contact sheets read the embedded PNG's ALPHA channel directly and looked
+perfect — but Health renders these through a CSS mask, and the SVG wraps the
+PNG in a **luminance** `<mask>` painting a `currentColor` rect. Those are not
+the same operation, and a corpus that is fine in one can be invisible in the
+other. A follow-up check rasterising the SVG at 128px then reported
+`opaque: 0`, which read exactly like a broken mask; at the real 512 it is 255,
+so THAT was a downsampling artifact rather than a bug. **Measure the pipeline
+the consumer actually uses, at the size it actually uses** — the intermediate
+result was misleading in both directions on the same file.
+
+### Known and shipped anyway
+
+`straight-arm-pulldown--m` is three near-identical frames with no visible bar.
+One movement in 350; not worth holding a publish for, and it is in `NEXT.md`.
+
+**jsDelivr is NOT proven.** Individual files serve (200, real bytes) but the
+package API returns `403 Package size exceeded the configured limit of 50 MB` —
+our corpus is 135 MB where Foodsum's is 31 MB, so we may be past what that CDN
+will index even though it is currently serving. Health's LOCAL path does not
+touch it and that is what was verified today. **Also: the ref is `@1`, not
+`@v1`** — jsDelivr strips a leading `v`, verified by fetching both.
+
+**The repo was PRIVATE when first pushed**, which is why jsDelivr 404'd
+everything; salroid made it public mid-session. Worth knowing: a private repo
+fails at the CDN with a 404 that looks exactly like a wrong path.
+
 **Why PoseBook is the way it is.** Append-only, newest first: when a decision is
 made, record it here *at the time*, with the reasoning and what was rejected.
 A decision whose reason isn't written down gets re-litigated, or quietly undone

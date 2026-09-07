@@ -7,10 +7,13 @@ owned outright: no CC BY-SA obligations, no coverage ceiling, no style drift.
 ```bash
 npm run build              # poses → dist/svg/<slug>/<m|f>/frame-N.svg + dist/sheet.html
 npm run build squat        # rebuild one slug while tuning its pose
-npm run export             # → Health/public/exercise-art/ (skips existing slugs)
-npm run export -- --sex f  # ship the female figure
-npm run export -- --force  # replace slugs that already have (everkinetic) art
+npm run index              # frames/corpus → frames/corpus/index.json (the manifest)
 ```
+
+**There is no export step any more.** `Health/public/posebook` is a SYMLINK to
+`frames/corpus`, so an ingest is live in the app immediately — same arrangement
+as Foodsum. `scripts/export-health.mjs` is dead; it copied the RIG's `dist/svg`
+into a folder Health no longer has.
 
 ## Why a rig, not generated images
 
@@ -59,11 +62,17 @@ Tune loop: edit the numbers → `npm run build <slug>` → open `dist/sheet.html
 ## The two figures
 
 `m` and `f` differ in proportions (shoulder/hip width, stroke weight) and the
-`f` figure's bun — every pose renders as both automatically. Health ships one
-per slug today because `ExerciseFigure` reads `<slug>/frame-N.svg` with no
-body selection; the profile already carries `sex`, so teaching the renderer to
-pick `m|f` is the natural Health-side follow-up, and `export` re-runs in one
-command when it lands.
+`f` figure's bun — every pose renders as both automatically, and **Health picks
+one off the profile's `sex`** (2026-09-07). Both are served; each user fetches
+one.
+
+## Published
+
+`github.com/salRoid/PoseBook`, tagged per release. Health reads the corpus from
+the local symlink in dev, or from a pinned jsDelivr tag when
+`NEXT_PUBLIC_POSEBOOK_BASE` is set — **`@1`, not `@v1`**, jsDelivr strips the
+leading `v`. Raw strips (`frames/inbox/`), snapshots and `review.db` are
+deliberately NOT in git; see `DECISIONS.md` 2026-09-07.
 
 ## Output contract
 
