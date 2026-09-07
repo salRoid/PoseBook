@@ -59,12 +59,23 @@ Suite-wide open work stays in **`../NEXT.md`**.
   a mask cannot thicken a stroke, so it wants a dilated thumbnail variant out
   of `ingest-frames` (e.g. `frame-N@thumb.svg`) and a `thumb` field in
   `index.json`. Not designed, not built.
-- **jsDelivr has not been proven for this repo.** Individual files serve, but
-  `data.jsdelivr.com` returns `403 Package size exceeded the configured limit
-  of 50 MB` for the package listing — our corpus is 135 MB, Foodsum's is 31 MB.
-  Health's hosted build depends on this working; check it properly before
-  bumping `NEXT_PUBLIC_POSEBOOK_BASE` anywhere real. **The ref form is `@1`,
-  not `@v1`** — jsDelivr strips a leading `v` and `@v1` 404s.
+- **jsDelivr is a poor fit and Health should not depend on it.** Free, but its
+  package cap is **150 MB** (its docs; its own API error string says 50) and
+  our corpus is 130 MB. v1 at 175.9 MB was not indexed at all and served
+  PARTIALLY — 9 of 24 sampled files real, 15 `Failed to fetch version info`,
+  which is worse than a clean failure. Trimmed to 136 MB and re-tagged `v2`,
+  still unindexed 5+ minutes on. Health's hosted path should bind-mount
+  `/srv/lumen/PoseBook/frames/corpus` instead (see `../NEXT.md` §1h). **If a
+  CDN is ever wanted, the ref form is `@2`, not `@v2`** — jsDelivr strips a
+  leading `v`.
+- **The corpus is 130 MB and that is the thing to shrink.** Every frame embeds
+  an RGBA PNG averaging ~76 KB where the mask only ever reads shape.
+  Re-encoding one sample: 55,792 bytes → **36,357** as a bare alpha channel,
+  → 5,428 as a 2-colour palette (which would destroy anti-aliasing, so treat
+  it as a ceiling, not a plan). A 35% cut is available losslessly and would
+  also cut what Health fetches per figure, which is the same 76 KB — so this is
+  the same fix as the faint-thumbnail item's sibling, not a separate chore.
+  Needs a change to `ingest-frames`' SVG wrapper, and re-ingesting everything.
 - **`scripts/export-health.mjs` is now DEAD.** It copied `dist/svg` into
   `Health/public/exercise-art`, which no longer exists — Health symlinks
   `frames/corpus` instead. It also exported the RIG's output, not the corpus.

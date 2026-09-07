@@ -31,11 +31,6 @@
     "why": "2026-09-04 (Sal, Ear-Pressing Pose): frame 1 lies head-left while frame 2 lies head-right; verified by flipping frame 1 and matching it against frame 2."
   },
 
-  "karnapidasana--f": {
-    "mirrorFrames": [1],
-    "why": "2026-09-04 (Sal, Ear-Pressing Pose): same defect as karnapidasana--m — frame 1 is the mirrored one."
-  },
-
   "sirsasana--f": {
     "mirrorFrames": [1],
     "why": "2026-09-04 (Sal, Headstand): frame 1 tucks to the left while frame 2 — and both frames of sirsasana--m — put the head-and-forearms base on the left with the body to the right."
