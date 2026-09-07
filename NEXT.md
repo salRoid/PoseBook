@@ -59,15 +59,16 @@ Suite-wide open work stays in **`../NEXT.md`**.
   a mask cannot thicken a stroke, so it wants a dilated thumbnail variant out
   of `ingest-frames` (e.g. `frame-N@thumb.svg`) and a `thumb` field in
   `index.json`. Not designed, not built.
-- **jsDelivr is a poor fit and Health should not depend on it.** Free, but its
-  package cap is **150 MB** (its docs; its own API error string says 50) and
-  our corpus is 130 MB. v1 at 175.9 MB was not indexed at all and served
-  PARTIALLY — 9 of 24 sampled files real, 15 `Failed to fetch version info`,
-  which is worse than a clean failure. Trimmed to 136 MB and re-tagged `v2`,
-  still unindexed 5+ minutes on. Health's hosted path should bind-mount
-  `/srv/lumen/PoseBook/frames/corpus` instead (see `../NEXT.md` §1h). **If a
-  CDN is ever wanted, the ref form is `@2`, not `@v2`** — jsDelivr strips a
-  leading `v`.
+- **jsDelivr WORKS, and the tarball size is the thing to watch.** Its ~150 MB
+  limit applies to the tarball it fetches from codeload, not to the checkout:
+  `v1` was 135.6 MB and failed HALF-OPEN (9 of 24 files real, the rest
+  `Failed to fetch version info`), `v2` is 97.2 MB and serves **60/60
+  byte-identical**. Check every future tag with
+  `curl -sL codeload.github.com/salRoid/PoseBook/tar.gz/<tag> -o /dev/null -w '%{size_download}'`
+  before pointing Health at it. **The ref is `@2`, not `@v2`** — jsDelivr
+  strips a leading `v`. And a new tag needs
+  `https://purge.jsdelivr.net/gh/salRoid/PoseBook@<tag>/<path>` before it
+  serves; the version-list API lags behind the CDN.
 - **The corpus is 130 MB and that is the thing to shrink.** Every frame embeds
   an RGBA PNG averaging ~76 KB where the mask only ever reads shape.
   Re-encoding one sample: 55,792 bytes → **36,357** as a bare alpha channel,
